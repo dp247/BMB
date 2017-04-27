@@ -78,13 +78,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Attack.h" />
     <ClInclude Include="Behaviours.h" />
     <ClInclude Include="bot.h" />
     <ClInclude Include="camera.h" />
+    <ClInclude Include="Capture.h" />
     <ClInclude Include="dynamicObjects.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="ErrorLogger.h" />
     <ClInclude Include="errortype.h" />
+    <ClInclude Include="FindResupplyPoint.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="gamecode.h" />
     <ClInclude Include="gametimer.h" />
@@ -105,12 +108,15 @@
     <ClInclude Include="vector2D.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Attack.cpp" />
     <ClCompile Include="Behaviours.cpp" />
     <ClCompile Include="bot.cpp" />
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="Capture.cpp" />
     <ClCompile Include="dynamicobjects.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="ErrorLogger.cpp" />
+    <ClCompile Include="FindResupplyPoint.cpp" />
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gamecode.cpp" />
     <ClCompile Include="gametimer.cpp" />

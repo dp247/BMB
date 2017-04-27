@@ -96,6 +96,15 @@
     <ClInclude Include="Roam.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
+    <ClInclude Include="Attack.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="Capture.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="FindResupplyPoint.h">
+      <Filter>Header Files\States</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bot.cpp">
@@ -162,6 +171,15 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Roam.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Attack.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="Capture.cpp">
+      <Filter>Source Files\States</Filter>
+    </ClCompile>
+    <ClCompile Include="FindResupplyPoint.cpp">
       <Filter>Source Files\States</Filter>
     </ClCompile>
   </ItemGroup>
