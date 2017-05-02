@@ -103,6 +103,7 @@
     <ClInclude Include="rules.h" />
     <ClInclude Include="Shapes.h" />
     <ClInclude Include="SoundPlayer.h" />
+    <ClInclude Include="Start.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="staticmap.h" />
     <ClInclude Include="vector2D.h" />
@@ -130,6 +131,7 @@
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="Shapes.cpp" />
+    <ClCompile Include="Start.cpp" />
     <ClCompile Include="staticmap.cpp" />
     <ClCompile Include="vector2D.cpp" />
     <ClCompile Include="wincode.cpp" />

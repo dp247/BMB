@@ -328,31 +328,31 @@ void Bot::TakeDamage(int amount)
 // and calls methods to analyse the map
 void Bot::StartAI()
 {
-	//For bot 0 on team 0
-	if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
-	{
-		//Setup the pathfinding function
-		Graph::instance.AnalyseMap();
-		Graph::instance.FillEdgeList();
+	////For bot 0 on team 0
+	//if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
+	//{
+	//	//Setup the pathfinding function
+	//	Graph::instance.AnalyseMap();
+	//	Graph::instance.FillEdgeList();
 
 
 
-		//----Pathfinding----//
+	//	//----Pathfinding----//
 
-		//Declare two Vector2D variables
-		Vector2D start, end;
+	//	//Declare two Vector2D variables
+	//	Vector2D start, end;
 
-		//Set the variables to locations in the world to define a path
-		start.set(-1200, 0);
-		end.set(1200, 0);
+	//	//Set the variables to locations in the world to define a path
+	//	start.set(-1200, 0);
+	//	end.set(1200, 0);
 
-		//Generate a path for the bot using the aformentioned values
-		behaviour.m_Path = Graph::instance.Pathfind(start, end);
+	//	//Generate a path for the bot using the aformentioned values
+	//	behaviour.m_Path = Graph::instance.Pathfind(start, end);
 
-		//Reverse the points in the path list - this should be done another way
-		reverse(behaviour.m_Path.begin(), behaviour.m_Path.end());
+	//	//Reverse the points in the path list - this should be done another way
+	//	reverse(behaviour.m_Path.begin(), behaviour.m_Path.end());
 
-	}
+	//}
 
 	currentState = nullptr;
 	previousState = nullptr;
@@ -366,6 +366,7 @@ void Bot::StartAI()
 void Bot::ProcessAI()
 {
 	int botNumber = 0;
+
 	//if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == 0)
 	//{
 	//	srand(time(NULL));
@@ -391,43 +392,65 @@ void Bot::ProcessAI()
 	//-> GetBot (enemyTeam, m_OwnBotNumber);
 	//m_acceleration = 4.7 * Seek (enemyBot.m_position)
 
-	for (botNumber = 0; botNumber < NUMBOTSPERTEAM; ++botNumber)
-	{
-	//	if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == botNumber)
+	//for (botNumber = 0; botNumber < NUMBOTSPERTEAM; ++botNumber)
+	//{
+	////	if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == botNumber)
+	////	{
+	////		Bot& enemyBot = DynamicObjects::GetInstance()->GetBot(1, botNumber);
+
+	////		Vector2D enemyLoc = enemyBot.m_Position;
+	////		Vector2D myBotLoc = Bot::GetLocation();
+	////		Vector2D myBotVelocity = Bot::GetVelocity();
+
+	////		//m_Acceleration = 3 * behaviour.Seek(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
+	////		//m_Acceleration = 3 * behaviour.Arrive(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
+	////		m_Acceleration = 4.7 * behaviour.Pursue(enemyLoc, myBotLoc, myBotVelocity);
+	////		m_Acceleration = 2 * behaviour.AvoidWall(myBotLoc);
+	////		
+	////	}
+
+	//	//This part of the code is used to drawn lines of the path
+	//	if (m_iOwnBotNumber == 0 && m_iOwnTeamNumber == 0)
 	//	{
-	//		Bot& enemyBot = DynamicObjects::GetInstance()->GetBot(1, botNumber);
-
-	//		Vector2D enemyLoc = enemyBot.m_Position;
-	//		Vector2D myBotLoc = Bot::GetLocation();
-	//		Vector2D myBotVelocity = Bot::GetVelocity();
-
-	//		//m_Acceleration = 3 * behaviour.Seek(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
-	//		//m_Acceleration = 3 * behaviour.Arrive(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
-	//		m_Acceleration = 4.7 * behaviour.Pursue(enemyLoc, myBotLoc, myBotVelocity);
-	//		m_Acceleration = 2 * behaviour.AvoidWall(myBotLoc);
+	//		std::vector<Vector2D>::iterator it;
+	//		for (it = behaviour.m_Path.begin(); it != behaviour.m_Path.end(); it++)
+	//		{
+	//			auto i = it;
+	//			i++;
+	//			if (i != behaviour.m_Path.end())
+	//			{
+	//				Renderer::GetInstance()->DrawLine(*it, *i, -1);
+	//			}
+	//		}
 	//		
+	//		//Set the accelaration based on the FollowPath behaviour, which uses the path in StartAI()
+	//		m_Acceleration = behaviour.FollowPath(m_Position, GetVelocity());
 	//	}
+	//}
 
-		//This part of the code is used to drawn lines of the path
-		if (m_iOwnBotNumber == 0 && m_iOwnTeamNumber == 0)
-		{
-			std::vector<Vector2D>::iterator it;
-			for (it = behaviour.m_Path.begin(); it != behaviour.m_Path.end(); it++)
-			{
-				auto i = it;
-				i++;
-				if (i != behaviour.m_Path.end())
-				{
-					Renderer::GetInstance()->DrawLine(*it, *i, -1);
-				}
-			}
-			
-			//Set the accelaration based on the FollowPath behaviour, which uses the path in StartAI()
-			m_Acceleration = behaviour.FollowPath(m_Position, GetVelocity());
-		}
-	}
+	//Graph::instance.Draw();
 
-	Graph::instance.Draw();
+
+	//// Loop through all enemy bots on the next team
+	//for (int i = 0; i < NUMBOTSPERTEAM; i++)
+	//{
+	//	//If the bot can see an enemy
+	//	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(),
+	//		DynamicObjects::GetInstance()->GetBot(1, i).GetLocation()))
+	//	{
+	//		//If the seen bot is alive
+	//		if (DynamicObjects::GetInstance()->GetBot(1, i).IsAlive())
+	//		{
+	//			//Set the distance to the enemy bot
+	//			enemyBotDistance = (pBot->GetLocation() - DynamicObjects::GetInstance()->GetBot(1, i).
+	//				GetLocation()).magnitude();
+	//		}
+	//	}
+	//}
+
+
+
+
 
 
 }
@@ -646,4 +669,58 @@ void Bot::ChangeState(State<Bot>* newState)
 	currentState = newState;
 	currentState->Enter(this);
 
+}
+
+void Bot::SetVelocity(Vector2D newVelocity)
+{
+	m_Velocity += newVelocity;
+}
+
+int Bot::GetAmmo()
+{
+	return m_iAmmo;
+}
+
+void Bot::GetClosestEnemyBot()
+{
+	float enemyBotDistance = 0.0;
+	float closestEnemyDistance = 9999999.9;
+
+	// Loop through all enemy bots on the next team
+	for (int botNumber = 0; botNumber < NUMBOTSPERTEAM; i++)
+	{
+		//If the seen bot is alive
+		if (DynamicObjects::GetInstance()->GetBot(1, i).IsAlive())
+		{
+			//Set the distance to the enemy bot
+			enemyBotDistance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetBot(1, botNumber).
+				GetLocation()).magnitude();
+
+			//If the new distance is less than the closest distance, set the targetted bot 
+			if (enemyBotDistance < closestEnemyDistance)
+			{
+				closestEnemyDistance = enemyBotDistance;
+				m_targetBot = botNumber;
+			}
+		}
+	}
+}
+
+bool Bot::GetLineOfSight(int enemyBot)
+{
+	bool botIsSeen = false;
+
+	//If the bot has a line of sight on the enemy, return true
+	if (StaticMap::GetInstance()->IsLineOfSight(Bot::GetLocation(),
+		DynamicObjects::GetInstance()->GetBot(1, enemyBot).GetLocation()))
+	{
+		botIsSeen = true;
+	}
+
+	return botIsSeen;
+}
+
+int Bot::GetEnemyBotID()
+{
+	return m_targetBot;
 }

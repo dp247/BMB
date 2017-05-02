@@ -17,6 +17,10 @@ private:
 	bool isPathfinding;
 	bool isAvoidingWall;
 
+	int enemy;						//ID of target enemy bot
+	int dominationPoint;			//ID of target domination point
+	Vector2D reSupplyPoint;			//location of supply point
+
 public:
 	Behaviours();
 	~Behaviours();
@@ -30,9 +34,6 @@ public:
 	Vector2D AvoidWall(Vector2D botPos);
 
 	std::vector <Vector2D> m_Path;	//Vector of path locations
-	int enemy;						//ID of target enemy bot
-	int dominationPoint;			//ID of target domination point
-	Vector2D supplyPoint;			//location of supply point
 	State<Bot>* currentState;		//the current state
 	State<Bot>* previousState;		//the previous state
 
@@ -44,5 +45,9 @@ public:
 
 	//Gets the current path
 	std::vector<Vector2D>* GetPath();
+
+	//Accumulate the velocities of all the behaviours
+	Vector2D AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity,
+		Vector2D botPos, Vector2D botVelocity, std::vector<Vector2D>* path);
 };
 

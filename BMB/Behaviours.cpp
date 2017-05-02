@@ -133,7 +133,7 @@ Vector2D Behaviours::AvoidWall(Vector2D botPos)
 {
 	//Create a circle
 	Circle2D circle;
-	//Place the cirlce around the bot 
+	//Place the circle around the bot 
 	circle.PlaceAt(botPos, 75.0f);
 
 	//Ask the engine if the circle is inside the block

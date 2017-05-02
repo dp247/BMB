@@ -3,16 +3,16 @@
 #pragma once
 
 
-class Capture : public State<Bot>
+class Start : public State<Bot>
 {
 private:
-	Capture();
-	~Capture();
+	Start();
+	~Start();
 
-	static Capture* instance;
+	static Start* instance;
 
 public:
-	static Capture* GetInstance();
+	static Start* GetInstance();
 	void Enter(Bot* pBot);
 	void Execute(Bot* pBot);
 	void Exit(Bot* pBot);
