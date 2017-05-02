@@ -95,7 +95,10 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
-	// Calculates the closest bot to the enemy
+	// Returns the closest domination point to the bot
+	DominationPoint* GetClosestDominationPoint();
+
+	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();
 
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
@@ -112,6 +115,9 @@ public:
 
 	// Returns the location of the bot
 	Vector2D GetLocation();
+
+	// Returns the number of captured domination points
+	int GetNumberOfCapturedDPs();
 
 	// Returns the velocity of the bot
 	Vector2D GetVelocity();

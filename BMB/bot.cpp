@@ -683,18 +683,18 @@ int Bot::GetAmmo()
 
 void Bot::GetClosestEnemyBot()
 {
-	float enemyBotDistance = 0.0;
-	float closestEnemyDistance = 9999999.9;
+	double enemyBotDistance = 0.0;
+	double closestEnemyDistance = 9999999.9;
 
 	// Loop through all enemy bots on the next team
-	for (int botNumber = 0; botNumber < NUMBOTSPERTEAM; i++)
+	for (int botNumber = 0; botNumber < NUMBOTSPERTEAM; botNumber++)
 	{
 		//If the seen bot is alive
-		if (DynamicObjects::GetInstance()->GetBot(1, i).IsAlive())
+		if (DynamicObjects::GetInstance()->GetBot(1, botNumber).IsAlive())
 		{
 			//Set the distance to the enemy bot
 			enemyBotDistance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetBot(1, botNumber).
-				GetLocation()).magnitude();
+								GetLocation()).magnitude();
 
 			//If the new distance is less than the closest distance, set the targetted bot 
 			if (enemyBotDistance < closestEnemyDistance)
@@ -723,4 +723,39 @@ bool Bot::GetLineOfSight(int enemyBot)
 int Bot::GetEnemyBotID()
 {
 	return m_targetBot;
+}
+
+int Bot::GetNumberOfCapturedDPs()
+{
+	int capturedDPs = 0;
+
+	for (int i = 0; i < NUMDOMINATIONPOINTS; ++i)
+	{
+		if (DynamicObjects::GetInstance()->GetDominationPoint(i).m_OwnerTeamNumber == Bot::m_iOwnTeamNumber)
+		{
+			capturedDPs++;
+		}
+	}
+
+	return capturedDPs;
+}
+
+DominationPoint* Bot::GetClosestDominationPoint()
+{
+	DominationPoint* closest;
+	float distance = 9999999.9;
+
+	for (int i = 0; i < NUMDOMINATIONPOINTS; ++i)
+	{
+		if ((Bot::GetLocation - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude) < distance)
+		{
+			if (DynamicObjects::GetInstance()->GetDominationPoint(i).m_OwnerTeamNumber != Bot::m_iOwnTeamNumber)
+			{
+				distance = ((Bot::GetLocation - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude));
+				closest = &DynamicObjects::GetInstance()->GetDominationPoint(i);
+			}
+		}
+	}
+
+	return closest;
 }

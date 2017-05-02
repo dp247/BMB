@@ -62,6 +62,7 @@ void Roam::Execute(Bot* pBot)
 			pBot->ChangeState(Attack::GetInstance());
 		}
 
+		//Else if there are less than 2 domination points captured
 		else if ()
 		{
 

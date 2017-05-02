@@ -45,27 +45,25 @@ std::vector<Vector2D>* Behaviours::GetPath()
 
 }
 
-Vector2D Behaviours::Seek(Vector2D target, Vector2D position, Vector2D velocity)
+Vector2D Behaviours::Seek(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
 {
-	Vector2D desiredVelocity = (target - position).unitVector() * MAXIMUMSPEED;
+	Vector2D desiredVelocity = (targetPos - botPos).unitVector() * MAXIMUMSPEED;
+
+	return (desiredVelocity - velocity).unitVector() * MAXIMUMACCELERATION;
+}
+
+Vector2D Behaviours::Flee(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
+{
+	Vector2D desiredVelocity = (botPos - targetPos).unitVector() * MAXIMUMSPEED;
 
 	Vector2D behaviourAccn = desiredVelocity - velocity;
 
 	return behaviourAccn;
 }
 
-Vector2D Behaviours::Flee(Vector2D target, Vector2D position, Vector2D velocity)
+Vector2D Behaviours::Arrive(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
 {
-	Vector2D desiredVelocity = (position - target).unitVector() * MAXIMUMSPEED;
-
-	Vector2D behaviourAccn = desiredVelocity - velocity;
-
-	return behaviourAccn;
-}
-
-Vector2D Behaviours::Arrive(Vector2D target, Vector2D position, Vector2D velocity)
-{
-	float distance = (target - position).magnitude();
+	float distance = (targetPos - botPos).magnitude();
 
 	float speed = distance / 5;
 
@@ -74,14 +72,14 @@ Vector2D Behaviours::Arrive(Vector2D target, Vector2D position, Vector2D velocit
 		speed = MAXIMUMSPEED;
 	}
 
-	Vector2D desiredVelocity = (target - position).unitVector() * speed;
+	Vector2D desiredVelocity = (targetPos - botPos).unitVector() * speed;
 
 	Vector2D behaviourAccn = desiredVelocity - velocity;
 
 	return behaviourAccn;
 }
 
-Vector2D Behaviours::Pursue(Vector2D targetPos, Vector2D botPos, Vector2D targetVelocity)
+Vector2D Behaviours::Pursue(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity)
 {
 	double distance = (targetPos - botPos).magnitude();
 
@@ -89,7 +87,7 @@ Vector2D Behaviours::Pursue(Vector2D targetPos, Vector2D botPos, Vector2D target
 
 	Vector2D target = targetPos + targetVelocity * time;
 
-	return Seek(target, botPos, targetVelocity);
+	return Seek(target, botPos, botVelocity);
 }
 
 Vector2D Behaviours::Evade(Vector2D targetPos, Vector2D botPos, Vector2D targetVelocity)
@@ -104,7 +102,7 @@ Vector2D Behaviours::Evade(Vector2D targetPos, Vector2D botPos, Vector2D targetV
 }
 
 
-Vector2D Behaviours::FollowPath(Vector2D& position, Vector2D velocity)
+Vector2D Behaviours::FollowPath(Vector2D& botPos, Vector2D botVelocity)
 {
 	//Initialize a result variable
 	Vector2D result;
@@ -116,10 +114,10 @@ Vector2D Behaviours::FollowPath(Vector2D& position, Vector2D velocity)
 	{
 		//Set the result to seek the last element in path from the current 
 		//bot position and using the current velocity
-		result = Seek(m_Path.back(), position, velocity);
+		result = Seek(m_Path.back(), botPos, botVelocity);
 
 		//Check if the node after the last (i.e. the next node) can be seen
-		if (StaticMap::GetInstance()->IsLineOfSight(position, m_Path[pathSize - 2]))
+		if (StaticMap::GetInstance()->IsLineOfSight(botPos, m_Path[pathSize - 2]))
 		{
 			//Remove the node from the path
 			m_Path.pop_back();
@@ -142,4 +140,33 @@ Vector2D Behaviours::AvoidWall(Vector2D botPos)
 		//Get the normal
 		return (3.0f * StaticMap::GetInstance()->GetNormalToSurface(circle));
 	}
+}
+
+Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity, std::vector<Vector2D>* path)
+{
+	Vector2D acceleration;
+
+	if (Seek)
+		acceleration += Seek(targetPos, botPos, botVelocity);
+
+	if (Arrive)
+		acceleration += Arrive(targetPos, botPos, botVelocity);
+
+	if (Pursue)
+		acceleration += Pursue(targetPos, targetVelocity, botPos,
+		botVelocity);
+
+	if (Evade)
+		acceleration += Evade(targetPos, botPos, targetVelocity);
+
+	if (Flee)
+		acceleration += Flee(targetPos, botPos, botVelocity);
+
+	if (FollowPath)
+		acceleration += FollowPath(botPos, botVelocity);
+
+	if (AvoidWall)
+		acceleration += AvoidWall(botPos);
+
+	return acceleration;
 }
