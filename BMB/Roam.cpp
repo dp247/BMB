@@ -41,7 +41,7 @@ Roam* Roam::GetInstance()
 void Roam::Enter(Bot* pBot)
 {
 	pBot->SetBehaviours(true, false, false, false, false, true, true);
-	//pBot->GetBehaviourInstance.FollowPath()
+	//pBot->GetBehaviourInstance.FollowPath() -- pathfinding?
 	pBot->GetClosestEnemyBot();
 }
 
@@ -49,7 +49,7 @@ void Roam::Enter(Bot* pBot)
 void Roam::Execute(Bot* pBot)
 {
 	//Update velocities
-
+	//how?
 
 	//If the bot is alive
 	if (pBot->IsAlive())
@@ -61,7 +61,7 @@ void Roam::Execute(Bot* pBot)
 		}
 
 		//Else if the closest enemy bot is within line of sight and has an accuracy of 70%+
-		else if ((pBot->GetLineOfSight(pBot->GetEnemyBotID())) && (pBot->GetAccuracy() >= 0.7))
+		else if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
 		{
 			pBot->ChangeState(Attack::GetInstance());
 		}
@@ -77,8 +77,11 @@ void Roam::Execute(Bot* pBot)
 		{
 			pBot->ChangeState(Guard::GetInstance());
 		}
+
+		//should reloading happen here?
 	}
 
+	//If the bot is dead, change to the reset state
 	else
 	{
 		pBot->ChangeState(Start::GetInstance());
