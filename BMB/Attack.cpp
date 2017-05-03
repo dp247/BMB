@@ -24,7 +24,7 @@ Attack* Attack::GetInstance()
 
 void Attack::Enter(Bot* pBot)
 {
-	//Set target 
+	
 }
 
 void Attack::Execute(Bot* pBot)

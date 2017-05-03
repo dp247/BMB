@@ -647,11 +647,9 @@ void Bot::ChangeState(State<Bot>* newState)
 		currentState->Exit(this);
 	}
 
-
 	previousState = currentState;
 	currentState = newState;
 	currentState->Enter(this);
-
 }
 
 void Bot::SetVelocity(Vector2D newVelocity)
@@ -743,4 +741,9 @@ DominationPoint Bot::GetClosestDominationPoint()
 	}
 
 	return closest;
+}
+
+Behaviours* Bot::GetBehaviourInstance()
+{
+	return &behaviour;
 }

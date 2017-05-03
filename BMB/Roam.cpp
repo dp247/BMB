@@ -41,6 +41,7 @@ Roam* Roam::GetInstance()
 void Roam::Enter(Bot* pBot)
 {
 	pBot->SetBehaviours(true, false, false, false, false, true, true);
+	//pBot->GetBehaviourInstance.FollowPath()
 	pBot->GetClosestEnemyBot();
 }
 

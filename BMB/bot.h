@@ -97,6 +97,9 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
+	// Gets the current behaviour instance
+	Behaviours* GetBehaviourInstance();
+
 	// Returns the closest domination point to the bot
 	DominationPoint GetClosestDominationPoint();
 
