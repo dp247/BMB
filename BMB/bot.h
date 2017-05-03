@@ -3,6 +3,8 @@
 #include "rules.h"
 #include "Behaviours.h"
 
+struct DominationPoint;
+
 class Bot : public Behaviours
 {
 protected:
@@ -96,7 +98,7 @@ public:
 	int GetAmmo();
 
 	// Returns the closest domination point to the bot
-	DominationPoint* GetClosestDominationPoint();
+	DominationPoint GetClosestDominationPoint();
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();

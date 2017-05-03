@@ -221,7 +221,7 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 			if (!contains(closedSet, current->edgeList[i].toNode))
 			{
 				//work out the new G score
-				float newGScore = current->g + current->edgeList[i].cost;
+				double newGScore = current->g + current->edgeList[i].cost;
 
 				//if the new G score is less than the neighbouring node's G score or the neighbouring node is
 				//not open

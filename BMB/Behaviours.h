@@ -14,6 +14,7 @@ private:
 	bool isFleeing;
 	bool isArriving;
 	bool isPursuing;
+	bool isEvading;
 	bool isPathfinding;
 	bool isAvoidingWall;
 
@@ -38,7 +39,7 @@ public:
 	State<Bot>* previousState;		//the previous state
 
 	//Sets the behaviour variables
-	void SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Pathfind, bool AvoidWall);
+	void SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Evade, bool Pathfind, bool AvoidWall);
 
 	//Sets the bots path
 	void SetPath(std::vector<Vector2D>* path);

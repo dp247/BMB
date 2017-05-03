@@ -431,23 +431,6 @@ void Bot::ProcessAI()
 	//Graph::instance.Draw();
 
 
-	//// Loop through all enemy bots on the next team
-	//for (int i = 0; i < NUMBOTSPERTEAM; i++)
-	//{
-	//	//If the bot can see an enemy
-	//	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(),
-	//		DynamicObjects::GetInstance()->GetBot(1, i).GetLocation()))
-	//	{
-	//		//If the seen bot is alive
-	//		if (DynamicObjects::GetInstance()->GetBot(1, i).IsAlive())
-	//		{
-	//			//Set the distance to the enemy bot
-	//			enemyBotDistance = (pBot->GetLocation() - DynamicObjects::GetInstance()->GetBot(1, i).
-	//				GetLocation()).magnitude();
-	//		}
-	//	}
-	//}
-
 
 
 
@@ -704,6 +687,8 @@ void Bot::GetClosestEnemyBot()
 			}
 		}
 	}
+
+	Bot::SetTarget(1, m_targetBot);
 }
 
 bool Bot::GetLineOfSight(int enemyBot)
@@ -740,19 +725,19 @@ int Bot::GetNumberOfCapturedDPs()
 	return capturedDPs;
 }
 
-DominationPoint* Bot::GetClosestDominationPoint()
+DominationPoint Bot::GetClosestDominationPoint()
 {
-	DominationPoint* closest;
-	float distance = 9999999.9;
+	DominationPoint closest;
+	double distance = 9999999.9;
 
 	for (int i = 0; i < NUMDOMINATIONPOINTS; ++i)
 	{
-		if ((Bot::GetLocation - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude) < distance)
+		if ((Bot::GetLocation().magnitude() - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude()) < distance)
 		{
 			if (DynamicObjects::GetInstance()->GetDominationPoint(i).m_OwnerTeamNumber != Bot::m_iOwnTeamNumber)
 			{
-				distance = ((Bot::GetLocation - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude));
-				closest = &DynamicObjects::GetInstance()->GetDominationPoint(i);
+				distance = ((Bot::GetLocation().magnitude() - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude()));
+				closest = DynamicObjects::GetInstance()->GetDominationPoint(i);
 			}
 		}
 	}

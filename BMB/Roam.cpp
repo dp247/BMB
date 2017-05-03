@@ -6,6 +6,7 @@
 #include "Roam.h"
 #include "Attack.h"
 #include "Capture.h"
+#include "Guard.h"
 #include "FindResupplyPoint.h"
 #include "Start.h"
 
@@ -39,7 +40,7 @@ Roam* Roam::GetInstance()
 //Called on entry of the state
 void Roam::Enter(Bot* pBot)
 {
-	pBot->SetBehaviours(true, false, false, false, true, true);
+	pBot->SetBehaviours(true, false, false, false, false, true, true);
 	pBot->GetClosestEnemyBot();
 }
 
@@ -48,6 +49,8 @@ void Roam::Execute(Bot* pBot)
 {
 	//Update velocities
 
+
+	//If the bot is alive
 	if (pBot->IsAlive())
 	{
 		//If the bot has no ammo, change to the state
@@ -56,20 +59,23 @@ void Roam::Execute(Bot* pBot)
 			pBot->ChangeState(FindResupplyPoint::GetInstance());
 		}
 
-		//Else if the closest enemy bot is within line of sight
-		else if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
+		//Else if the closest enemy bot is within line of sight and has an accuracy of 70%+
+		else if ((pBot->GetLineOfSight(pBot->GetEnemyBotID())) && (pBot->GetAccuracy() >= 0.7))
 		{
 			pBot->ChangeState(Attack::GetInstance());
 		}
 
 		//Else if there are less than 2 domination points captured
-		else if ()
+		else if (pBot->GetNumberOfCapturedDPs() < 2)
 		{
-
+			pBot->ChangeState(Capture::GetInstance());
 		}
 
-		//If capturing DP, change to Capture state
-		pBot->ChangeState(Capture::GetInstance());
+		//Else if there are more than 2 domination points captured
+		else if (pBot->GetNumberOfCapturedDPs() > 2)
+		{
+			pBot->ChangeState(Guard::GetInstance());
+		}
 	}
 
 	else
@@ -82,11 +88,6 @@ void Roam::Execute(Bot* pBot)
 //Called on exit of the state
 void Roam::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false);
+	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 
-
-void Roam::SetBotTarget(Bot* pBot)
-{
-	//Set the target of the bot
-}

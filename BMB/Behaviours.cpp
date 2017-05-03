@@ -21,12 +21,13 @@ Behaviours::~Behaviours()
 }
 
 //Set the behaviour variables
-void Behaviours::SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Pathfind, bool AvoidWall)
+void Behaviours::SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Evade, bool Pathfind, bool AvoidWall)
 {
 	isSeeking = Seek;
 	isFleeing = Flee;
 	isArriving = Arrive;
 	isPursuing = Pursue;
+	isEvading = Evade;
 	isPathfinding = Pathfind;
 	isAvoidingWall = AvoidWall;
 }
@@ -146,26 +147,26 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 {
 	Vector2D acceleration;
 
-	if (Seek)
+	if (isSeeking)
 		acceleration += Seek(targetPos, botPos, botVelocity);
 
-	if (Arrive)
+	if (isFleeing)
+		acceleration += Flee(targetPos, botPos, botVelocity);
+
+	if (isArriving)
 		acceleration += Arrive(targetPos, botPos, botVelocity);
 
-	if (Pursue)
+	if (isPursuing)
 		acceleration += Pursue(targetPos, targetVelocity, botPos,
 		botVelocity);
 
-	if (Evade)
+	if (isEvading)
 		acceleration += Evade(targetPos, botPos, targetVelocity);
 
-	if (Flee)
-		acceleration += Flee(targetPos, botPos, botVelocity);
-
-	if (FollowPath)
+	if (isPathfinding)
 		acceleration += FollowPath(botPos, botVelocity);
 
-	if (AvoidWall)
+	if (isAvoidingWall)
 		acceleration += AvoidWall(botPos);
 
 	return acceleration;
