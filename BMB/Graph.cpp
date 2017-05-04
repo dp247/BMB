@@ -109,11 +109,6 @@ Node* Graph::findClosestVisibleNode(Vector2D pos)
 
 	return closest;
 }
-//
-//std::vector<Vector2D> Graph::Pathfind(Vector2D from, Vector2D to)
-//{
-//
-//}
 
 //Function to draw each node onto the map
 void Graph::Draw()

@@ -2,18 +2,12 @@
 //domination point, evaluates its health and ammo and generates the path to whichever,
 //changing to Attack, Capture or FindResupplyPoint
 
-//State includes
 #include "Roam.h"
-#include "Attack.h"
 #include "Capture.h"
-#include "Guard.h"
 #include "FindResupplyPoint.h"
+#include "Guard.h"
 #include "Start.h"
 
-//Other includes
-#include "Graph.h"
-#include "dynamicObjects.h"
-#include "staticmap.h"
 
 //Initialise the instance of the state to null
 Roam* Roam::instance = nullptr;
@@ -42,6 +36,8 @@ void Roam::Enter(Bot* pBot)
 {
 	pBot->SetBehaviours(true, false, false, false, false, true, true);
 	//pBot->GetBehaviourInstance.FollowPath() -- pathfinding?
+
+	//Get the closest enemy bot (even if not in LOS) and set the appropriate variable
 	pBot->GetClosestEnemyBot();
 }
 
@@ -60,12 +56,6 @@ void Roam::Execute(Bot* pBot)
 			pBot->ChangeState(FindResupplyPoint::GetInstance());
 		}
 
-		//Else if the closest enemy bot is within line of sight and has an accuracy of 70%+
-		else if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
-		{
-			pBot->ChangeState(Attack::GetInstance());
-		}
-
 		//Else if there are less than 2 domination points captured
 		else if (pBot->GetNumberOfCapturedDPs() < 2)
 		{
@@ -78,7 +68,6 @@ void Roam::Execute(Bot* pBot)
 			pBot->ChangeState(Guard::GetInstance());
 		}
 
-		//should reloading happen here?
 	}
 
 	//If the bot is dead, change to the reset state

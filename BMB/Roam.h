@@ -1,4 +1,9 @@
+
+//Other includes
 #include "bot.h"
+#include "Graph.h"
+#include "dynamicObjects.h"
+#include "staticmap.h"
 
 #pragma once
 

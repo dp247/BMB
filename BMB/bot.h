@@ -3,8 +3,6 @@
 #include "rules.h"
 #include "Behaviours.h"
 
-struct DominationPoint;
-
 class Bot : public Behaviours
 {
 protected:
@@ -21,7 +19,10 @@ protected:
 	int m_iAimingAtBot;				// Number of the bot being aimed at
 	int m_iAmmo;					// Number of ammo left
 	float m_dAccuracy;				// Accuracy of the current firing solution (1 == 100%)
-	int m_targetBot;				// ID of the target bot
+
+	//Closest object data
+	int m_iClosestBot;				// ID of the closest enemy bot
+	Vector2D m_vClosestRP;			// location of the closest resupply point
 
 	//Timers
 	float m_dTimeToCoolDown;		// Countdown until the time the bot can shoot again
@@ -31,12 +32,6 @@ protected:
 	int m_iOwnTeamNumber;			// Bot's team number
 	int m_iOwnBotNumber;			// Bot's own bot number
 	int m_iHealth;					// Bot's health (100 max)
-
-	//Pathfinding
-	Vector2D targetPoint;			// Used only by placeholder AI. Delete this.
-
-	//Behaviours
-	Behaviours behaviour;			//behaviour instance
 
 public:
 	Bot();	
@@ -97,11 +92,8 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
-	// Gets the current behaviour instance
-	Behaviours* GetBehaviourInstance();
-
 	// Returns the closest domination point to the bot
-	DominationPoint GetClosestDominationPoint();
+	void GetClosestDominationPoint();
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();
@@ -109,8 +101,17 @@ public:
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
 	float GetDirection();
 
+	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
+	float GetDistanceToEnemyBot();
+
 	// Returns the enemy bot ID
 	int GetEnemyBotID();
+
+	// Returns the position of the enemy bot
+	Vector2D GetEnemyBotLocation();
+
+	// Returns the velocity of the enemy bot
+	Vector2D GetEnemyBotVelocity();
 
 	// Returns the current health of the bot
 	int GetHealth();

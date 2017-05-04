@@ -2,6 +2,7 @@
 #include "rules.h"
 #include "vector2D.h"
 #include "staticmap.h"
+#include "Graph.h"
 #include "Node.h"
 #include "State.h"
 
@@ -42,10 +43,12 @@ public:
 	void SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Evade, bool Pathfind, bool AvoidWall);
 
 	//Sets the bots path
-	void SetPath(std::vector<Vector2D>* path);
+	void SetPathInstance(std::vector<Vector2D>* path);
 
 	//Gets the current path
-	std::vector<Vector2D>* GetPath();
+	std::vector<Vector2D>* GetPathInstance();
+
+	void GeneratePath(Vector2D from, Vector2D to);
 
 	//Accumulate the velocities of all the behaviours
 	Vector2D AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity,

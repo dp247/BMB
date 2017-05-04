@@ -33,13 +33,13 @@ void Behaviours::SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, b
 }
 
 //Set the path
-void Behaviours::SetPath(std::vector<Vector2D>* path)
+void Behaviours::SetPathInstance(std::vector<Vector2D>* path)
 {
 	m_Path = *path;
 }
 
 //Return the bot's current path
-std::vector<Vector2D>* Behaviours::GetPath()
+std::vector<Vector2D>* Behaviours::GetPathInstance()
 {
 
 	return &m_Path;
@@ -171,3 +171,9 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 
 	return acceleration;
 }
+
+void Behaviours::GeneratePath(Vector2D from, Vector2D to)
+{
+	m_Path = Graph::instance.Pathfind(from, to);
+}
+

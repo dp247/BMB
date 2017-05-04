@@ -681,12 +681,10 @@ void Bot::GetClosestEnemyBot()
 			if (enemyBotDistance < closestEnemyDistance)
 			{
 				closestEnemyDistance = enemyBotDistance;
-				m_targetBot = botNumber;
+				m_iClosestBot = botNumber;
 			}
 		}
 	}
-
-	Bot::SetTarget(1, m_targetBot);
 }
 
 bool Bot::GetLineOfSight(int enemyBot)
@@ -705,7 +703,7 @@ bool Bot::GetLineOfSight(int enemyBot)
 
 int Bot::GetEnemyBotID()
 {
-	return m_targetBot;
+	return m_iClosestBot;
 }
 
 int Bot::GetNumberOfCapturedDPs()
@@ -723,27 +721,29 @@ int Bot::GetNumberOfCapturedDPs()
 	return capturedDPs;
 }
 
-DominationPoint Bot::GetClosestDominationPoint()
+void Bot::GetClosestDominationPoint()
 {
-	DominationPoint closest;
-	double distance = 9999999.9;
-
-	for (int i = 0; i < NUMDOMINATIONPOINTS; ++i)
+	if ((StaticMap::GetInstance()->GetResupplyLocation(2) - Bot::GetLocation()).magnitude() > (StaticMap::GetInstance()->GetResupplyLocation(3) - Bot::GetLocation()).magnitude())
 	{
-		if ((Bot::GetLocation().magnitude() - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude()) < distance)
-		{
-			if (DynamicObjects::GetInstance()->GetDominationPoint(i).m_OwnerTeamNumber != Bot::m_iOwnTeamNumber)
-			{
-				distance = ((Bot::GetLocation().magnitude() - (DynamicObjects::GetInstance()->GetDominationPoint(i).m_Location).magnitude()));
-				closest = DynamicObjects::GetInstance()->GetDominationPoint(i);
-			}
-		}
+		Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(3);
 	}
-
-	return closest;
+	else
+	{
+		Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(2);
+	}
 }
 
-Behaviours* Bot::GetBehaviourInstance()
+float Bot::GetDistanceToEnemyBot()
 {
-	return &behaviour;
+	return (Bot::GetLocation() - DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetLocation()).magnitude();
+}
+
+Vector2D Bot::GetEnemyBotLocation()
+{
+	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetLocation());
+}
+
+Vector2D Bot::GetEnemyBotVelocity()
+{
+	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetVelocity());
 }

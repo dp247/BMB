@@ -1,8 +1,5 @@
 #pragma once
 
-//TODO:Add Attack, Capture and FindSupplyPoint
-
-
 template <class EntityType>
 
 class State
