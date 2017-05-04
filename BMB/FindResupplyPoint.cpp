@@ -77,3 +77,12 @@ void FindResupplyPoint::Exit(Bot* pBot)
 {
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
+
+void FindResupplyPoint::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}

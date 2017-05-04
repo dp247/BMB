@@ -80,3 +80,12 @@ void Capture::Exit(Bot* pBot)
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 
+void Capture::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}
+

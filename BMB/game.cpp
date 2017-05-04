@@ -5,6 +5,15 @@
 #include "myinputs.h"
 #include "dynamicobjects.h"
 
+//States
+#include "State.h"
+#include "Attack.h"
+#include "Roam.h"
+#include "Capture.h"
+#include "FindResupplyPoint.h"
+#include "Guard.h"
+#include "Start.h"
+
 Game* Game::pInst = NULL;
 
 Game* Game::GetInstance()
@@ -115,6 +124,9 @@ ErrorType Game::Update()
 	if(m_State == RUNNING)
 	// Update Dynamic objects
 	{
+		//Networking code goes here
+
+
 		DynamicObjects::GetInstance()->Update(m_timer.m_fFrameTime);
 	}
 
@@ -163,6 +175,9 @@ ErrorType Game::End()
 {
 	Renderer::Release();
 	StaticMap::Release();
+
+	//Release the states
+	//Attack::Release();
 	DynamicObjects::Release();
 	return SUCCESS;
 }

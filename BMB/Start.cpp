@@ -37,3 +37,12 @@ void Start::Exit(Bot* pBot)
 {
 
 }
+
+void Start::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}

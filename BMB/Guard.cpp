@@ -80,3 +80,12 @@ void Guard::Exit(Bot* pBot)
 {
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
+
+void Guard::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}

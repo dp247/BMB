@@ -109,3 +109,12 @@ void Attack::Exit(Bot* pBot)
 {
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
+
+void Attack::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}

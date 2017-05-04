@@ -84,3 +84,12 @@ void Roam::Exit(Bot* pBot)
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 
+void Roam::Release()
+{
+	if (instance)
+	{
+		delete instance;
+		instance = nullptr;
+	}
+}
+

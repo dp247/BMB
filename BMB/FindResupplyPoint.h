@@ -16,4 +16,5 @@ public:
 	void Enter(Bot* pBot);
 	void Execute(Bot* pBot);
 	void Exit(Bot* pBot);
+	void Release();
 };

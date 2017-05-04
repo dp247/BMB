@@ -1,6 +1,7 @@
 #include "bot.h"
 #include "dynamicobjects.h"
 #include "renderer.h"
+#include "Start.h"
 #include <cmath>
 #include <time.h>
 
@@ -326,31 +327,9 @@ void Bot::TakeDamage(int amount)
 // and calls methods to analyse the map
 void Bot::StartAI()
 {
-	////For bot 0 on team 0
-	//if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
-	//{
-	//	//Setup the pathfinding function
-	//	Graph::instance.AnalyseMap();
-	//	Graph::instance.FillEdgeList();
-
-
-
-	//	//----Pathfinding----//
-
-	//	//Declare two Vector2D variables
-	//	Vector2D start, end;
-
-	//	//Set the variables to locations in the world to define a path
-	//	start.set(-1200, 0);
-	//	end.set(1200, 0);
-
-	//	//Generate a path for the bot using the aformentioned values
-	//	behaviour.m_Path = Graph::instance.Pathfind(start, end);
-
-	//	//Reverse the points in the path list - this should be done another way
-	//	reverse(behaviour.m_Path.begin(), behaviour.m_Path.end());
-
-	//}
+	//Setup the pathfinding function
+	Graph::instance.AnalyseMap();
+	Graph::instance.FillEdgeList();
 
 	currentState = nullptr;
 	previousState = nullptr;
@@ -363,77 +342,21 @@ void Bot::StartAI()
 // Eventually, this will contain very little code - it just runs the state
 void Bot::ProcessAI()
 {
-	int botNumber = 0;
+	//If the bot is alive
+	if (IsAlive())
+	{
+		if (!currentState)
+		{
+			ChangeState(Start::GetInstance());
+		}
 
-	//if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == 0)
-	//{
-	//	srand(time(NULL));
-	//	float f_VectorXAccel = rand() % 79 + 1;
-	//	float f_VectorYAccel = rand() % 79 + 1;
-	//	m_Acceleration = Vector2D(f_VectorXAccel, f_VectorYAccel);
-	//}
+		currentState->Execute(this);
+	}
 
-	//else if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == 1)
-	//{
-	//}
-
-	//for (int i = 0; i < 7; ++i)
-	//{
-
-	//}
-
-	//Bot& enemyBot = DynamicObjects::GetInstance()
-	//->GetBot(1 - m_ownTeamNumber, 2)
-
-	//int enemyTeam = 1-m_ownTeamNumber;
-	//const Bot& enemyBot = DynamicObjects::GetInstance()
-	//-> GetBot (enemyTeam, m_OwnBotNumber);
-	//m_acceleration = 4.7 * Seek (enemyBot.m_position)
-
-	//for (botNumber = 0; botNumber < NUMBOTSPERTEAM; ++botNumber)
-	//{
-	////	if (Bot::m_iOwnTeamNumber == 0 && Bot::m_iOwnBotNumber == botNumber)
-	////	{
-	////		Bot& enemyBot = DynamicObjects::GetInstance()->GetBot(1, botNumber);
-
-	////		Vector2D enemyLoc = enemyBot.m_Position;
-	////		Vector2D myBotLoc = Bot::GetLocation();
-	////		Vector2D myBotVelocity = Bot::GetVelocity();
-
-	////		//m_Acceleration = 3 * behaviour.Seek(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
-	////		//m_Acceleration = 3 * behaviour.Arrive(enemyBot.GetLocation(), Bot::GetLocation(), Bot::GetVelocity());
-	////		m_Acceleration = 4.7 * behaviour.Pursue(enemyLoc, myBotLoc, myBotVelocity);
-	////		m_Acceleration = 2 * behaviour.AvoidWall(myBotLoc);
-	////		
-	////	}
-
-	//	//This part of the code is used to drawn lines of the path
-	//	if (m_iOwnBotNumber == 0 && m_iOwnTeamNumber == 0)
-	//	{
-	//		std::vector<Vector2D>::iterator it;
-	//		for (it = behaviour.m_Path.begin(); it != behaviour.m_Path.end(); it++)
-	//		{
-	//			auto i = it;
-	//			i++;
-	//			if (i != behaviour.m_Path.end())
-	//			{
-	//				Renderer::GetInstance()->DrawLine(*it, *i, -1);
-	//			}
-	//		}
-	//		
-	//		//Set the accelaration based on the FollowPath behaviour, which uses the path in StartAI()
-	//		m_Acceleration = behaviour.FollowPath(m_Position, GetVelocity());
-	//	}
-	//}
-
-	//Graph::instance.Draw();
-
-
-
-
-
-
-
+	else
+	{
+		currentState = nullptr;
+	}
 }
 
 
