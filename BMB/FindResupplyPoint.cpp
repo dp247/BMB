@@ -36,7 +36,7 @@ void FindResupplyPoint::Enter(Bot* pBot)
 void FindResupplyPoint::Execute(Bot* pBot)
 {
 	//If the resupply is in line of sight
-	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()));
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()))
 	{
 		//Seek to it and capture
 		pBot->SetBehaviours(true, false, false, false, false, false, true);

@@ -13,3 +13,5 @@ const float ACCURATERANGE = 200.0f;			// Range at which you can expect 100% accu
 const float AIMRATE = 0.3f;					// Rate at which accuracy increases
 const int MAXAMMO = 8;
 const int MAXEDGES = 500;
+const int PLAYERTEAM = 0;					// For demo purposes - the team of my AI
+const int ENEMYTEAM = 1;					// For demo purposes - the team of Chris' AI

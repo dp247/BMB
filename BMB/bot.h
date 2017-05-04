@@ -96,7 +96,7 @@ public:
 	int GetAmmo();
 
 	// Calculates the closest non-owned domination point to the bot
-	Vector2D GetClosestDominationPoint();
+	Vector2D GetClosestDominationPoint(int teamNumber);
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();

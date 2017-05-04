@@ -32,13 +32,13 @@ void Capture::Enter(Bot* pBot)
 	pBot->SetBehaviours(false, false, false, false, false, true, true);
 
 	//Generate path to the domination point closest to the bot
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint());
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint(ENEMYTEAM));
 }
 
 void Capture::Execute(Bot* pBot)
 {
 	//If domination point is in line of sight
-	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestDominationPoint()));
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestDominationPoint(ENEMYTEAM)))
 	{
 		//Seek to it and capture
 		pBot->SetBehaviours(true, false, false, false, false, true, true);

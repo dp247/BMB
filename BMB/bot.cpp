@@ -719,14 +719,14 @@ int Bot::GetNumberOfCapturedDPs()
 	return capturedDPs;
 }
 
-Vector2D Bot::GetClosestDominationPoint()
+Vector2D Bot::GetClosestDominationPoint(int teamNumber)
 {
 	double distance = 999999;
 	for (int dominationPointID = 0; dominationPointID < NUMDOMINATIONPOINTS; ++dominationPointID)
 	{
 
 		if ((Bot::GetLocation() - DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location).magnitude() < distance
-			&& DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_OwnerTeamNumber != 0)
+			&& DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_OwnerTeamNumber == teamNumber)
 		{
 			distance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location).magnitude();
 			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
