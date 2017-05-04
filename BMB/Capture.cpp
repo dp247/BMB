@@ -31,7 +31,7 @@ void Capture::Enter(Bot* pBot)
 	//Set behaviours
 	pBot->SetBehaviours(false, false, false, false, false, true, true);
 
-	//Generate path to the domination point closest to the bot
+	//Generate path to the enemy domination point closest to the bot
 	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint(ENEMYTEAM));
 }
 

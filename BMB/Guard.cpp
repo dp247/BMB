@@ -1,4 +1,9 @@
+#include "Attack.h"
+#include "Capture.h"
 #include "Guard.h"
+#include "Roam.h"
+
+#include "dynamicObjects.h"
 
 //Initialise the instance of the state to null
 Guard* Guard::instance = nullptr;
@@ -24,23 +29,54 @@ Guard* Guard::GetInstance()
 
 void Guard::Enter(Bot* pBot)
 {
-	//Find closest domination point
-		//Seek to it - set behaviours and path
+	//Set behaviours
+	pBot->SetBehaviours(false, false, false, false, false, true, true);
+
+	//Generate path to the player owned domination point closest to the bot
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint(PLAYERTEAM));
 }
 
 void Guard::Execute(Bot* pBot)
 {
-	//If owned domination point is within LOS
-		//Seek to it
+	//If domination point is in line of sight
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestDominationPoint(PLAYERTEAM)))
+	{
+		//Seek to it and capture
+		pBot->SetBehaviours(true, false, false, false, false, true, true);
+	}
 
-	//If enemy is near
-		//Change to attack state
+	//Update the bot's speed
+	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
-	//If more than 2 domination points are taken
-		//Change to roam state again
+	//Get the closest enemy bot again
+	pBot->GetClosestEnemyBot();
+
+	//Check the enemy is within part of a radius of the domination point
+	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	{
+		//If the enemy bot is alive and within the range, attack them
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		{
+			pBot->ChangeState(Attack::GetInstance());
+		}
+	}
+
+	//If the bot's team has 2 or more domination points captured, switch to the defend 
+	//state
+	else if (pBot->GetNumberOfCapturedDPs() < 2)
+	{
+		pBot->ChangeState(Capture::GetInstance());
+	}
+
+	//Else, go back to roaming around
+	else
+	{
+		pBot->ChangeState(Roam::GetInstance());
+	}
 }
 
 void Guard::Exit(Bot* pBot)
 {
-	//Reset behaviours
+	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
