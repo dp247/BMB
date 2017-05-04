@@ -1,8 +1,6 @@
 #include "bot.h"
-#include "staticmap.h"
 #include "dynamicobjects.h"
 #include "renderer.h"
-#include "Graph.h"
 #include <cmath>
 #include <time.h>
 
@@ -689,16 +687,16 @@ void Bot::GetClosestEnemyBot()
 
 bool Bot::GetLineOfSight(int enemyBot)
 {
-	bool botIsSeen = false;
+	bool targetCanBeSeen = false;
 
 	//If the bot has a line of sight on the enemy, return true
 	if (StaticMap::GetInstance()->IsLineOfSight(Bot::GetLocation(),
 		DynamicObjects::GetInstance()->GetBot(1, enemyBot).GetLocation()))
 	{
-		botIsSeen = true;
+		targetCanBeSeen = true;
 	}
 
-	return botIsSeen;
+	return targetCanBeSeen;
 }
 
 int Bot::GetEnemyBotID()
@@ -721,7 +719,7 @@ int Bot::GetNumberOfCapturedDPs()
 	return capturedDPs;
 }
 
-void Bot::GetClosestDominationPoint()
+Vector2D Bot::GetClosestDominationPoint()
 {
 	double distance = 999999;
 	for (int dominationPointID = 0; dominationPointID < NUMDOMINATIONPOINTS; ++dominationPointID)
@@ -731,20 +729,20 @@ void Bot::GetClosestDominationPoint()
 			&& DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_OwnerTeamNumber != 0)
 		{
 			distance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location).magnitude();
-			m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
+			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
 		}
 	}
 }
 
-void Bot::GetClosestResupplyPoint()
+Vector2D Bot::GetClosestResupplyPoint()
 {
 	if ((StaticMap::GetInstance()->GetResupplyLocation(2) - Bot::GetLocation()).magnitude() > (StaticMap::GetInstance()->GetResupplyLocation(3) - Bot::GetLocation()).magnitude())
 	{
-		Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(3);
+		return Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(3);
 	}
 	else
 	{
-		Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(2);
+		return Bot::m_vClosestRP = StaticMap::GetInstance()->GetResupplyLocation(2);
 	}
 }
 
@@ -761,4 +759,9 @@ Vector2D Bot::GetEnemyBotLocation()
 Vector2D Bot::GetEnemyBotVelocity()
 {
 	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetVelocity());
+}
+
+Vector2D Bot::SetBotAcceleration(Vector2D newAccelerationValue)
+{
+	m_Acceleration = newAccelerationValue;
 }

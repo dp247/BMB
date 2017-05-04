@@ -1,4 +1,6 @@
 #include "FindResupplyPoint.h"
+#include "Roam.h"
+
 
 //Initialise the instance of the state to null
 FindResupplyPoint* FindResupplyPoint::instance = nullptr;
@@ -24,21 +26,48 @@ FindResupplyPoint* FindResupplyPoint::GetInstance()
 
 void FindResupplyPoint::Enter(Bot* pBot)
 {
-	//Find nearest resupply point -- need new function
 	//Set behaviours
-	//Set path to point
+	pBot->SetBehaviours(false, false, false, false, false, true, true);
+
+	//Set path to closest resupply point
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestResupplyPoint);
 }
 
 void FindResupplyPoint::Execute(Bot* pBot)
 {
-	//If resupply point is in line of sight
-		//Seek to it
+	//If the resupply is in line of sight
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()));
+	{
+		//Seek to it and capture
+		pBot->SetBehaviours(true, false, false, false, false, false, true);
+	}
 
-	//If enemy is nearby - call GetClosestEnemy and check LineOfSight on the enemy ID
-		//Flee away from enemy
+	//Update the bot's speed
+	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
-	//If ammo is full
-		//Change to Roam state
+	//Get the closest enemy bot again
+	pBot->GetClosestEnemyBot();
+
+	//Check the enemy is within part of a radius of the resupply point
+	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	{
+		//If the enemy bot is alive and within the range, flee from it
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		{
+			pBot->SetBehaviours(false, false, false, false, true, true, true);
+		}
+	}
+
+	if (pBot->GetAmmo() == MAXAMMO)
+	{
+		pBot->ChangeState(Roam::GetInstance());
+	}
+
+	else
+	{
+		pBot->ChangeState(Roam::GetInstance());
+	}
 		
 }
 

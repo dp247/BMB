@@ -1,6 +1,5 @@
 #pragma once
 #include "shapes.h"
-#include "rules.h"
 #include "Behaviours.h"
 
 class Bot : public Behaviours
@@ -97,13 +96,13 @@ public:
 	int GetAmmo();
 
 	// Calculates the closest non-owned domination point to the bot
-	void GetClosestDominationPoint();
+	Vector2D GetClosestDominationPoint();
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();
 
 	// Calculates the closest resupply point to the bot
-	void GetClosestResupplyPoint();
+	Vector2D GetClosestResupplyPoint();
 
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
 	float GetDirection();
@@ -132,9 +131,6 @@ public:
 	// Returns the number of captured domination points
 	int GetNumberOfCapturedDPs();
 
-	// Returns the velocity of the bot
-	Vector2D GetVelocity();
-
 	// Returns the number of the bot being aimed at.
 	// Returns a negative number if no bot is being aimed at.
 	int GetTargetBot();
@@ -143,9 +139,15 @@ public:
 	// Returns a negative number if no bot is being aimed at.
 	int GetTargetTeam();
 
+	// Returns the velocity of the bot
+	Vector2D GetVelocity();
+
 
 
 	//Setter functions ------------------------------------------------------------------
+	// Sets the acceleration of the bot
+	Vector2D SetBotAcceleration(Vector2D newAccelerationValue);
+	
 	// Sets the bots own team number and bot number.
 	// No need to call this
 	void SetOwnNumbers(int teamNo, int botNo);

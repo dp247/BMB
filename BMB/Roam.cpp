@@ -44,8 +44,8 @@ void Roam::Enter(Bot* pBot)
 //Called on every frame of the state
 void Roam::Execute(Bot* pBot)
 {
-	//Update velocities
-	//how?
+	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
 	//If the bot is alive
 	if (pBot->IsAlive())

@@ -48,9 +48,9 @@ void Attack::Execute(Bot* pBot)
 	//If the closest enemy bot is in line of sight
 	if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
 	{	
-		//Set the velocity of the bot based on active behaviours
-		pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-			pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance());
+		//Update the bot's speed
+		pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+			pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
 		//If the targetted bot is alive
 		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
@@ -58,8 +58,8 @@ void Attack::Execute(Bot* pBot)
 			//If the bot's own health is 50 or more
 			if (pBot->GetHealth() >= 50)
 			{
-				//If the distance to the enemy bot is < 350
-				if (pBot->GetDistanceToEnemyBot() < 350)
+				//If the distance to the enemy bot is < 300
+				if (pBot->GetDistanceToEnemyBot() < 300)
 				{
 					//If the bot's accuracy is better than 70%
 					if (pBot->GetAccuracy() >= 0.7)

@@ -1,4 +1,8 @@
+#include "Attack.h"
 #include "Capture.h"
+#include "Guard.h"
+#include "Roam.h"
+#include "dynamicObjects.h"
 
 //Initialise the instance of the state to null
 Capture* Capture::instance = nullptr;
@@ -24,26 +28,55 @@ Capture* Capture::GetInstance()
 
 void Capture::Enter(Bot* pBot)
 {
-	//Set behaviour -- arrive?
-	//Find nearest non-owned domination point
-		//function in bot class
-	//Generate path to DP
+	//Set behaviours
+	pBot->SetBehaviours(false, false, false, false, false, true, true);
+
+	//Generate path to the domination point closest to the bot
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint());
 }
 
 void Capture::Execute(Bot* pBot)
 {
 	//If domination point is in line of sight
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestDominationPoint()));
+	{
 		//Seek to it and capture
+		pBot->SetBehaviours(true, false, false, false, false, true, true);
+	}
 
-	//If enemy is nearby - call GetClosestEnemy and check LineOfSight on the enemy ID
-		//Change to attack state
+	//Update the bot's speed
+	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
-	//If captured DP > 2
-		//Change to guard state
+	//Get the closest enemy bot again
+	pBot->GetClosestEnemyBot();
+
+	//Check the enemy is within part of a radius of the domination point
+	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	{
+		//If the enemy bot is alive and within the range, attack them
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		{
+			pBot->ChangeState(Attack::GetInstance());
+		}
+	}
+
+	//If the bot's team has 2 or more domination points captured, switch to the defend 
+	//state
+	else if (pBot->GetNumberOfCapturedDPs() >= 2)
+	{
+		pBot->ChangeState(Guard::GetInstance());
+	}
+
+	//Else, go back to roaming around
+	else
+	{
+		pBot->ChangeState(Roam::GetInstance());
+	}
 }
 
 void Capture::Exit(Bot* pBot)
 {
-	//Reset behaviours
+	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 
