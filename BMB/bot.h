@@ -33,6 +33,8 @@ protected:
 	int m_iOwnBotNumber;			// Bot's own bot number
 	int m_iHealth;					// Bot's health (100 max)
 
+	Vector2D targetPoint;
+
 public:
 	Bot();	
 

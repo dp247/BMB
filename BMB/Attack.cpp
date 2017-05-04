@@ -91,7 +91,7 @@ void Attack::Execute(Bot* pBot)
 	}
 
 	//If the bot does not have a target/is not aiming, set the target and aim at it
-	else if (pBot->GetTargetTeam != 1)
+	else if (pBot->GetTargetTeam() != 1)
 	{
 		pBot->SetTarget(1, pBot->GetEnemyBotID());
 	}
