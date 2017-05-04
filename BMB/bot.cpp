@@ -763,5 +763,5 @@ Vector2D Bot::GetEnemyBotVelocity()
 
 Vector2D Bot::SetBotAcceleration(Vector2D newAccelerationValue)
 {
-	m_Acceleration = newAccelerationValue;
+	return m_Acceleration = newAccelerationValue;
 }

@@ -30,7 +30,7 @@ void FindResupplyPoint::Enter(Bot* pBot)
 	pBot->SetBehaviours(false, false, false, false, false, true, true);
 
 	//Set path to closest resupply point
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestResupplyPoint);
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestResupplyPoint());
 }
 
 void FindResupplyPoint::Execute(Bot* pBot)
@@ -59,11 +59,13 @@ void FindResupplyPoint::Execute(Bot* pBot)
 		}
 	}
 
+	//If the bot has full ammo, go back to roaming
 	if (pBot->GetAmmo() == MAXAMMO)
 	{
 		pBot->ChangeState(Roam::GetInstance());
 	}
 
+	//Else, go back to roaming
 	else
 	{
 		pBot->ChangeState(Roam::GetInstance());
@@ -73,7 +75,5 @@ void FindResupplyPoint::Execute(Bot* pBot)
 
 void FindResupplyPoint::Exit(Bot* pBot)
 {
-
+	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
-
-//Add in find nearest resupply function
