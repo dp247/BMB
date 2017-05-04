@@ -22,7 +22,9 @@ protected:
 
 	//Closest object data
 	int m_iClosestBot;				// ID of the closest enemy bot
-	Vector2D m_vClosestRP;			// location of the closest resupply point
+	float m_dClosestBotDistance;	// Distance of the closest enemy bot
+	Vector2D m_vClosestDP;			// Location of the closest domination point
+	Vector2D m_vClosestRP;			// Location of the closest resupply point
 
 	//Timers
 	float m_dTimeToCoolDown;		// Countdown until the time the bot can shoot again
@@ -33,7 +35,7 @@ protected:
 	int m_iOwnBotNumber;			// Bot's own bot number
 	int m_iHealth;					// Bot's health (100 max)
 
-	Vector2D targetPoint;
+	Vector2D targetPoint;			//it complained when I took this out
 
 public:
 	Bot();	
@@ -94,11 +96,14 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
-	// Returns the closest domination point to the bot
+	// Calculates the closest non-owned domination point to the bot
 	void GetClosestDominationPoint();
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();
+
+	// Calculates the closest resupply point to the bot
+	void GetClosestResupplyPoint();
 
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
 	float GetDirection();
