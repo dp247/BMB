@@ -328,8 +328,8 @@ void Bot::TakeDamage(int amount)
 void Bot::StartAI()
 {
 	//Setup the pathfinding function
-	Graph::instance.AnalyseMap();
-	Graph::instance.FillEdgeList();
+	//Graph::instance.AnalyseMap();
+	//Graph::instance.FillEdgeList();
 
 	currentState = nullptr;
 	previousState = nullptr;
