@@ -33,13 +33,13 @@ void Guard::Enter(Bot* pBot)
 	pBot->SetBehaviours(false, false, false, false, false, true, true);
 
 	//Generate path to the player owned domination point closest to the bot
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestDominationPoint(PLAYERTEAM));
+	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM));
 }
 
 void Guard::Execute(Bot* pBot)
 {
 	//If domination point is in line of sight
-	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestDominationPoint(PLAYERTEAM)))
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM)))
 	{
 		//Seek to it and capture
 		pBot->SetBehaviours(true, false, false, false, false, true, true);
@@ -88,4 +88,9 @@ void Guard::Release()
 		delete instance;
 		instance = nullptr;
 	}
+}
+
+wchar_t* Guard::GetStateName()
+{
+	return L"Guard";
 }

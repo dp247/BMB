@@ -41,9 +41,7 @@ void Behaviours::SetPathInstance(std::vector<Vector2D>* path)
 //Return the bot's current path
 std::vector<Vector2D>* Behaviours::GetPathInstance()
 {
-
 	return &m_Path;
-
 }
 
 Vector2D Behaviours::Seek(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
@@ -175,5 +173,6 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 void Behaviours::GeneratePath(Vector2D from, Vector2D to)
 {
 	m_Path = Graph::instance.Pathfind(from, to);
+	ErrorLogger::Writeln(L"Generating path");
 }
 

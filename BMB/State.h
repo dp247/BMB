@@ -14,4 +14,6 @@ public:
 
 	//Exit runs once the state is done
 	virtual void Exit(EntityType* entity) = 0;
+
+	virtual wchar_t* GetStateName() = 0;
 };

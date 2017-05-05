@@ -118,3 +118,8 @@ void Attack::Release()
 		instance = nullptr;
 	}
 }
+
+wchar_t* Attack::GetStateName()
+{
+	return L"Attack";
+}

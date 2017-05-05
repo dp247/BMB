@@ -22,7 +22,6 @@ protected:
 	//Closest object data
 	int m_iClosestBot;				// ID of the closest enemy bot
 	float m_dClosestBotDistance;	// Distance of the closest enemy bot
-	Vector2D m_vClosestDP;			// Location of the closest domination point
 	Vector2D m_vClosestRP;			// Location of the closest resupply point
 
 	//Timers
@@ -38,6 +37,8 @@ protected:
 
 public:
 	Bot();	
+
+	Vector2D m_vClosestDP;			// Location of the closest domination point
 
 	//Flow functions --------------------------------------------------------------------
 	// Runs once each frame. Handles physics, shooting, and calls
@@ -96,7 +97,10 @@ public:
 	int GetAmmo();
 
 	// Calculates the closest non-owned domination point to the bot
-	Vector2D GetClosestDominationPoint(int teamNumber);
+	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
+
+	// Calculates the closest non-owned domination point to the bot
+	Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
 
 	// Calculates the closest enemy to the bot
 	void GetClosestEnemyBot();
@@ -160,6 +164,8 @@ public:
 	// If you want the bot to stop aiming, just set mbAiming = false
 	// or use the StopAiming method
 	void SetTarget(int targetTeamNo, int targetBotNo);
+
+	void SetTargetDP(Vector2D target);
 
 
 	//Set the velocity of the bot

@@ -46,3 +46,8 @@ void Start::Release()
 		instance = nullptr;
 	}
 }
+
+wchar_t* Start::GetStateName()
+{
+	return L"Start state";
+}

@@ -118,19 +118,19 @@ void Graph::Draw()
 	//Set another iterator
 	std::vector <Edge>::iterator iu;
 
-	//For every node
-	for (; it != NodeVector.end(); it++)
-	{
-		//Draw a dot for the node
-		Renderer::GetInstance()->DrawDot(it->position, 4);
-
-		//For every node in the edgeList
-		//for (iu = it->edgeList.begin(); iu != it->edgeList.end(); ++iu)
-		//{
-		//	//Draw the line
-		//	Renderer::GetInstance()->DrawLine(iu->fromNode->position, iu->toNode->position, 3);
-		//}
-	}
+//	//For every node
+//	for (; it != NodeVector.end(); it++)
+//	{
+//		//Draw a dot for the node
+//		Renderer::GetInstance()->DrawDot(it->position, 4);
+//
+//		//For every node in the edgeList
+//		//for (iu = it->edgeList.begin(); iu != it->edgeList.end(); ++iu)
+//		//{
+//		//	//Draw the line
+//		//	Renderer::GetInstance()->DrawLine(iu->fromNode->position, iu->toNode->position, 3);
+//		//}
+//	}
 }
 
 //Function to fill the list of edges between the nodes

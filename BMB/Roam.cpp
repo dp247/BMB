@@ -35,7 +35,6 @@ Roam* Roam::GetInstance()
 void Roam::Enter(Bot* pBot)
 {
 	pBot->SetBehaviours(true, false, false, false, false, true, true);
-	//pBot->GetBehaviourInstance.FollowPath() -- pathfinding?
 
 	//Get the closest enemy bot (even if not in LOS) and set the appropriate variable
 	pBot->GetClosestEnemyBot();
@@ -63,7 +62,7 @@ void Roam::Execute(Bot* pBot)
 		}
 
 		//Else if there are more than 2 domination points captured
-		else if (pBot->GetNumberOfCapturedDPs() > 2)
+		else if (pBot->GetNumberOfCapturedDPs() >= 2)
 		{
 			pBot->ChangeState(Guard::GetInstance());
 		}
@@ -91,5 +90,10 @@ void Roam::Release()
 		delete instance;
 		instance = nullptr;
 	}
+}
+
+wchar_t* Roam::GetStateName()
+{
+	return L"Roam";
 }
 

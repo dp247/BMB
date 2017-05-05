@@ -86,3 +86,8 @@ void FindResupplyPoint::Release()
 		instance = nullptr;
 	}
 }
+
+wchar_t* FindResupplyPoint::GetStateName()
+{
+	return L"Find resupply point";
+}
