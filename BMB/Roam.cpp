@@ -5,6 +5,7 @@
 #include "Roam.h"
 #include "Capture.h"
 #include "FindResupplyPoint.h"
+#include "GoToDominationPoint.h"
 #include "Guard.h"
 #include "Start.h"
 
@@ -58,7 +59,7 @@ void Roam::Execute(Bot* pBot)
 		//Else if there are less than 2 domination points captured
 		else if (pBot->GetNumberOfCapturedDPs() < 2)
 		{
-			pBot->ChangeState(Capture::GetInstance());
+			pBot->ChangeState(GoToDominationPoint::GetInstance());
 		}
 
 		//Else if there are more than 2 domination points captured

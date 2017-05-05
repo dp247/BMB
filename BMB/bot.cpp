@@ -327,7 +327,7 @@ void Bot::TakeDamage(int amount)
 // and calls methods to analyse the map
 void Bot::StartAI()
 {
-	//Setup the pathfinding function
+	//Setup the pathfinding instance
 	if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
 	{
 		Graph::instance.AnalyseMap();
@@ -336,7 +336,6 @@ void Bot::StartAI()
 
 	currentState = nullptr;
 	previousState = nullptr;
-
 }
 
 // This is your function. Use it to set the orders for the bot.
@@ -737,4 +736,16 @@ void Bot::DrawPath()
 	{
 		Renderer::GetInstance()->DrawDot(m_Path[i], 4);
 	}
+}
+
+void Bot::ChangeToPreviousState()
+{
+	if (currentState)
+	{
+		currentState->Exit(this);
+	}
+
+	currentState = previousState;
+
+	currentState->Enter(this);
 }

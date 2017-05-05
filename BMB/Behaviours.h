@@ -45,6 +45,8 @@ public:
 	//Sets the bots path
 	void SetPathInstance(std::vector<Vector2D>* path);
 
+	void ClearPath();
+
 	//Gets the current path
 	std::vector<Vector2D>* GetPathInstance();
 

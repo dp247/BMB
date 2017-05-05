@@ -26,6 +26,7 @@ Start* Start::GetInstance()
 void Start::Enter(Bot* pBot)
 {
 	pBot->SetBehaviours(false, false, false, false, false, false, true);
+	pBot->ClearPath();
 }
 
 void Start::Execute(Bot* pBot)

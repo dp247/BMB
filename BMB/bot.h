@@ -63,6 +63,8 @@ public:
 	//ChangeState changes the state
 	void ChangeState(State<Bot>* newState);
 
+	void ChangeToPreviousState();
+
 	//Other functions -------------------------------------------------------------------
 	// Reload the bot's weapon
 	void Reload();
@@ -166,6 +168,7 @@ public:
 	// If you want the bot to stop aiming, just set mbAiming = false
 	// or use the StopAiming method
 	void SetTarget(int targetTeamNo, int targetBotNo);
+
 
 	void SetTargetDP(Vector2D target);
 

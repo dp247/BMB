@@ -140,7 +140,7 @@ Vector2D Behaviours::AvoidWall(Vector2D botPos)
 	if (StaticMap::GetInstance()->IsInsideBlock(circle))
 	{
 		//Get the normal
-		return (300.0f * StaticMap::GetInstance()->GetNormalToSurface(circle));
+		return (100.0f * StaticMap::GetInstance()->GetNormalToSurface(circle));
 	}
 
 	return Vector2D(0, 0);
@@ -177,7 +177,14 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 
 void Behaviours::GeneratePath(Vector2D from, Vector2D to)
 {
-	m_Path = Graph::instance.Pathfind(from, to);
-	ErrorLogger::Writeln(L"Generating path");
+	//Reverse the from and to points to make sense to humans
+	m_Path = Graph::instance.Pathfind(to, from);
+
+	//ErrorLogger::Writeln(L"Generating path");
+}
+
+void Behaviours::ClearPath()
+{
+	m_Path.clear();
 }
 

@@ -29,28 +29,17 @@ Capture* Capture::GetInstance()
 void Capture::Enter(Bot* pBot)
 {
 	//Set behaviours
-	pBot->SetBehaviours(false, false, false, false, false, true, true);
+	pBot->SetBehaviours(true, false, false, false, false, false, true);
 
 	//Generate path to the enemy domination point closest to the bot
-	//pBot->GeneratePath(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM), pBot->GetLocation());
-	pBot->GeneratePath(Vector2D(2000, 2000), pBot->GetLocation());
+	//pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
 }
 
 void Capture::Execute(Bot* pBot)
 {
-	//If domination point is in line of sight
-	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(ENEMYTEAM)))
-	{
-		//Seek to it and capture
-		pBot->SetBehaviours(false, false, false, false, false, true, true);
-	}
-
 	//Update the bot's speed
 	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
 		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
-
-	//Get the closest enemy bot again
-	pBot->GetClosestEnemyBot();
 
 	//Check the enemy is within part of a radius of the domination point
 	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
@@ -68,12 +57,6 @@ void Capture::Execute(Bot* pBot)
 	{
 		pBot->ChangeState(Guard::GetInstance());
 	}
-
-	//Else, go back to roaming around
-	//else
-	//{
-	//	pBot->ChangeState(Roam::GetInstance());
-	//}
 }
 
 void Capture::Exit(Bot* pBot)

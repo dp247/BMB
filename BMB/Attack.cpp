@@ -12,10 +12,6 @@ Attack::Attack()
 
 Attack::~Attack()
 {
-	//if (instance)
-	//{
-	//	delete instance;
-	//}
 }
 
 Attack* Attack::GetInstance()
@@ -31,27 +27,24 @@ Attack* Attack::GetInstance()
 void Attack::Enter(Bot* pBot)
 {
 	//Set behaviours - pursue and generate path to bot
-	pBot->SetBehaviours(false, false, false, true, false, true, true);
+	pBot->SetBehaviours(false, false, false, true, false, false, true);
 
 	//If aiming, stop it
 	pBot->StopAiming();
 
 	//Aim at the closest enemy
 	pBot->SetTarget(1, pBot->GetEnemyBotID());
-
-	//Generate a path to the enemy
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetEnemyBotLocation());		
 }
 
 void Attack::Execute(Bot* pBot)
 {
+	//Update the bot's speed
+	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+
 	//If the closest enemy bot is in line of sight
 	if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
-	{	
-		//Update the bot's speed
-		pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-			pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
-
+	{
 		//If the targetted bot is alive
 		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
 		{
