@@ -31,11 +31,9 @@ void Capture::Enter(Bot* pBot)
 	//Set behaviours
 	pBot->SetBehaviours(false, false, false, false, false, true, true);
 
-	//Get closest domination point
-	pBot->SetTargetDP(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
-
 	//Generate path to the enemy domination point closest to the bot
-	pBot->GeneratePath(pBot->GetLocation(), pBot->m_vClosestDP);
+	//pBot->GeneratePath(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM), pBot->GetLocation());
+	pBot->GeneratePath(Vector2D(2000, 2000), pBot->GetLocation());
 }
 
 void Capture::Execute(Bot* pBot)
@@ -44,7 +42,7 @@ void Capture::Execute(Bot* pBot)
 	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(ENEMYTEAM)))
 	{
 		//Seek to it and capture
-		pBot->SetBehaviours(true, false, false, false, false, true, true);
+		pBot->SetBehaviours(false, false, false, false, false, true, true);
 	}
 
 	//Update the bot's speed
@@ -72,10 +70,10 @@ void Capture::Execute(Bot* pBot)
 	}
 
 	//Else, go back to roaming around
-	else
-	{
-		pBot->ChangeState(Roam::GetInstance());
-	}
+	//else
+	//{
+	//	pBot->ChangeState(Roam::GetInstance());
+	//}
 }
 
 void Capture::Exit(Bot* pBot)

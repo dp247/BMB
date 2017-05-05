@@ -85,6 +85,8 @@ public:
 	// Stops the bot from aiming, so it can move again
 	void StopAiming();
 
+	void DrawPath();
+
 
 
 	//Getter functions ------------------------------------------------------------------

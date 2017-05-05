@@ -354,6 +354,8 @@ void Bot::ProcessAI()
 	if (currentState)
 		Renderer::GetInstance()->DrawTextAt(Vector2D(30.0, (50 + m_iOwnBotNumber * 20)), currentState->GetStateName());
 
+	DrawPath();
+
 	//If the bot is alive
 	if (IsAlive())
 	{
@@ -656,7 +658,7 @@ int Bot::GetNumberOfCapturedDPs()
 
 Vector2D Bot::GetClosestUnOwnedDominationPoint(int OwnTeamNumber)
 {
-	double distance = 999999;
+	double distance = 9999;
 	for (int dominationPointID = 0; dominationPointID < NUMDOMINATIONPOINTS; ++dominationPointID)
 	{
 
@@ -719,4 +721,20 @@ Vector2D Bot::SetBotAcceleration(Vector2D newAccelerationValue)
 void Bot::SetTargetDP(Vector2D target)
 {
 	m_vClosestDP = target;
+}
+
+void Bot::DrawPath()
+{
+	if (m_Path.size() >= 1)
+		Renderer::GetInstance()->DrawLine(m_Position, m_Path.back(), 3);
+	//for (int i = 0; i < m_Path.size() - 2; ++i)
+	//{
+	//	Renderer::GetInstance()->DrawLine(m_Path[i], m_Path[i+1], 3);
+
+	//}
+
+	for (int i = 0; i < m_Path.size(); ++i)
+	{
+		Renderer::GetInstance()->DrawDot(m_Path[i], 4);
+	}
 }

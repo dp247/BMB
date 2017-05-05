@@ -108,12 +108,15 @@ Vector2D Behaviours::FollowPath(Vector2D& botPos, Vector2D botVelocity)
 	//Get the path size
 	int pathSize = m_Path.size();
 
+	if (pathSize > 0)
+		result = Seek(m_Path[pathSize - 1], botPos, botVelocity);
+
 	//If the path has more than one element
 	if (m_Path.size() > 1)
 	{
 		//Set the result to seek the last element in path from the current 
 		//bot position and using the current velocity
-		result = Seek(m_Path.back(), botPos, botVelocity);
+
 
 		//Check if the node after the last (i.e. the next node) can be seen
 		if (StaticMap::GetInstance()->IsLineOfSight(botPos, m_Path[pathSize - 2]))
@@ -137,8 +140,10 @@ Vector2D Behaviours::AvoidWall(Vector2D botPos)
 	if (StaticMap::GetInstance()->IsInsideBlock(circle))
 	{
 		//Get the normal
-		return (3.0f * StaticMap::GetInstance()->GetNormalToSurface(circle));
+		return (300.0f * StaticMap::GetInstance()->GetNormalToSurface(circle));
 	}
+
+	return Vector2D(0, 0);
 }
 
 Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity, std::vector<Vector2D>* path)

@@ -25,7 +25,7 @@ Start* Start::GetInstance()
 
 void Start::Enter(Bot* pBot)
 {
-	pBot->SetBehaviours(true, false, false, false, false, true, true);
+	pBot->SetBehaviours(false, false, false, false, false, false, true);
 }
 
 void Start::Execute(Bot* pBot)
@@ -35,7 +35,7 @@ void Start::Execute(Bot* pBot)
 
 void Start::Exit(Bot* pBot)
 {
-
+	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void Start::Release()

@@ -34,7 +34,7 @@ Roam* Roam::GetInstance()
 //Called on entry of the state
 void Roam::Enter(Bot* pBot)
 {
-	pBot->SetBehaviours(true, false, false, false, false, true, true);
+	pBot->SetBehaviours(false, false, false, false, false, false, true);
 
 	//Get the closest enemy bot (even if not in LOS) and set the appropriate variable
 	pBot->GetClosestEnemyBot();
