@@ -27,7 +27,7 @@ Attack* Attack::GetInstance()
 void Attack::Enter(Bot* pBot)
 {
 	//Set behaviours - pursue and generate path to bot
-	pBot->SetBehaviours(false, false, false, true, false, false, true);
+	pBot->SetBehaviours(false, false, true, false, false, false, true);
 
 	//If aiming, stop it
 	pBot->StopAiming();

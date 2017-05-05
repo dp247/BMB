@@ -151,7 +151,6 @@ public:
 	Vector2D GetVelocity();
 
 
-
 	//Setter functions ------------------------------------------------------------------
 	// Sets the acceleration of the bot
 	Vector2D SetBotAcceleration(Vector2D newAccelerationValue);
@@ -169,14 +168,8 @@ public:
 	// or use the StopAiming method
 	void SetTarget(int targetTeamNo, int targetBotNo);
 
-
 	void SetTargetDP(Vector2D target);
-
 
 	//Set the velocity of the bot
 	void SetVelocity(Vector2D newVelocity);
-
-
-
-
 };
