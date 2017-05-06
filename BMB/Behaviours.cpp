@@ -44,25 +44,40 @@ std::vector<Vector2D>* Behaviours::GetPathInstance()
 	return &m_Path;
 }
 
+//Returns a Vector2D that sets a desired velocity to move to a target
 Vector2D Behaviours::Seek(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
 {
-	Vector2D desiredVelocity = (targetPos - botPos).unitVector() * MAXIMUMSPEED;
+  targetPosition.set(targetPos);
+  botPosition.set(botPos);
+  botVelocity.set(velocity);
 
-	return (desiredVelocity - velocity).unitVector() * MAXIMUMACCELERATION;
+  Vector2D desiredVelocity = (targetPosition - botPosition).unitVector() * MAXIMUMSPEED;
+
+  return (desiredVelocity - botVelocity).unitVector() * MAXIMUMACCELERATION;
 }
 
+//Returns a Vector2D that sets a desired velocity to move away from a target
 Vector2D Behaviours::Flee(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
 {
-	Vector2D desiredVelocity = (botPos - targetPos).unitVector() * MAXIMUMSPEED;
+  targetPosition.set(targetPos);
+  botPosition.set(botPos);
+  botVelocity.set(velocity);
 
-	Vector2D behaviourAccn = desiredVelocity - velocity;
+  Vector2D desiredVelocity = (botPosition - targetPosition).unitVector() * MAXIMUMSPEED;
+
+  Vector2D behaviourAccn = desiredVelocity - botVelocity;
 
 	return behaviourAccn;
 }
 
+//Returns a Vector2D velocity that slows down as the bot approaches the destination
 Vector2D Behaviours::Arrive(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
 {
-	float distance = (targetPos - botPos).magnitude();
+  targetPosition.set(targetPos);
+  botPosition.set(botPos);
+  botVelocity.set(velocity);
+
+  float distance = (targetPosition - botPosition).magnitude();
 
 	float speed = distance / 5;
 
@@ -71,24 +86,32 @@ Vector2D Behaviours::Arrive(Vector2D targetPos, Vector2D botPos, Vector2D veloci
 		speed = MAXIMUMSPEED;
 	}
 
-	Vector2D desiredVelocity = (targetPos - botPos).unitVector() * speed;
+  Vector2D desiredVelocity = (targetPosition - botPosition).unitVector() * speed;
 
-	Vector2D behaviourAccn = desiredVelocity - velocity;
+  Vector2D behaviourAccn = desiredVelocity - botVelocity;
 
 	return behaviourAccn;
 }
 
-Vector2D Behaviours::Pursue(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity)
+//Returns a Vector2D velocity used to pursue a moving target, working out the intercept using the
+//target's position and velocity
+Vector2D Behaviours::Pursue(Vector2D targetPos, Vector2D targetVelo, Vector2D botPos, Vector2D botVelo)
 {
-	double distance = (targetPos - botPos).magnitude();
+  targetPosition.set(targetPos);
+  targetVelocity.set(targetVelo);
+  botPosition.set(botPos);
+  botVelocity.set(botVelo);
+
+  double distance = (targetPosition - botPosition).magnitude();
 
 	float time = distance / MAXIMUMSPEED;
 
-	Vector2D target = targetPos + targetVelocity * time;
+  Vector2D target = targetPosition + targetVelocity * time;
 
-	return Seek(target, botPos, botVelocity);
+  return Seek(target, botPosition, botVelocity);
 }
 
+//Not finished
 Vector2D Behaviours::Evade(Vector2D targetPos, Vector2D botPos, Vector2D targetVelocity)
 {
 	double distance = (targetPos - botPos).magnitude();
@@ -188,3 +211,7 @@ void Behaviours::ClearPath()
 	m_Path.clear();
 }
 
+void Behaviours::UpdateParameters()
+{
+
+}

@@ -26,34 +26,36 @@ Attack* Attack::GetInstance()
 
 void Attack::Enter(Bot* pBot)
 {
-	//Set behaviours - pursue and generate path to bot
-	pBot->SetBehaviours(false, false, true, false, false, false, true);
+  //If aiming, stop it
+  pBot->StopAiming();
 
-	//If aiming, stop it
-	pBot->StopAiming();
+  //Get the closest enemy bot again
+  pBot->GetClosestEnemyBot();
 
-	//Aim at the closest enemy
-	pBot->SetTarget(1, pBot->GetEnemyBotID());
+  //Aim at the closest enemy
+  pBot->SetTarget(1, pBot->GetEnemyBotID());
+
+  //Generate a path to the enemy
+  //pBot->GeneratePath(pBot->GetLocation(), pBot->GetEnemyBotLocation());
+
+  //Set behaviours
+  pBot->SetBehaviours(false, false, false, true, false, true, true);
 }
 
 void Attack::Execute(Bot* pBot)
 {
-	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
-
 	//If the closest enemy bot is in line of sight
 	if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
 	{
 		//If the targetted bot is alive
 		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
 		{
-			//If the bot's own health is 50 or more
-			if (pBot->GetHealth() >= 50)
-			{
-				//If the distance to the enemy bot is < 300
-				if (pBot->GetDistanceToEnemyBot() < 300)
+				//If the distance to the enemy bot is > 450, get closer to it
+				if (pBot->GetDistanceToEnemyBot() > 450)
 				{
+          pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+          	pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+
 					//If the bot's accuracy is better than 70%
 					if (pBot->GetAccuracy() >= 0.7)
 					{
@@ -61,13 +63,6 @@ void Attack::Execute(Bot* pBot)
 						pBot->Shoot();
 					}
 				}
-			}
-
-			//If the bot's health is lower than 50, disregard range and accuracy and just shoot
-			else
-			{
-				pBot->Shoot();
-			}
 		}
 
 		//If the targetted bot is dead, switch back to roaming

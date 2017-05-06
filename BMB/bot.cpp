@@ -749,3 +749,8 @@ void Bot::ChangeToPreviousState()
 
 	currentState->Enter(this);
 }
+
+int Bot::GetBotNumber()
+{
+  return m_iOwnBotNumber;
+}

@@ -100,10 +100,13 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
+  // Returns the bot's own number
+  int GetBotNumber();
+
 	// Calculates the closest non-owned domination point to the bot
 	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
 
-	// Calculates the closest non-owned domination point to the bot
+	// Calculates the closest owned domination point to the bot
 	Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
 
 	// Calculates the closest enemy to the bot
@@ -118,7 +121,8 @@ public:
 	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
 	float GetDistanceToEnemyBot();
 
-	// Returns the enemy bot ID
+	// Returns the enemy bot ID - different from GetTargetBot(). This function is used to
+  // return the closest enemy bot.
 	int GetEnemyBotID();
 
 	// Returns the position of the enemy bot

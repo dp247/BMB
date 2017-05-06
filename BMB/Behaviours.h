@@ -27,10 +27,15 @@ public:
 	Vector2D Seek(Vector2D targetPos, Vector2D botPos, Vector2D botVelocity);
 	Vector2D Flee(Vector2D targetPos, Vector2D botPos, Vector2D botVelocity);
 	Vector2D Arrive(Vector2D targetPos, Vector2D botPos, Vector2D botVelocity);
-	Vector2D Pursue(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity);
+	Vector2D Pursue(Vector2D targetPos, Vector2D targetVelo, Vector2D botPos, Vector2D botVelo);
 	Vector2D Evade(Vector2D targetPos, Vector2D botPos, Vector2D targetVelocity);
 	Vector2D FollowPath(Vector2D& botPos, Vector2D botVelocity);
 	Vector2D AvoidWall(Vector2D botPos);
+
+  Vector2D botPosition;
+  Vector2D botVelocity;
+  Vector2D targetPosition;
+  Vector2D targetVelocity;
 
 	std::vector <Vector2D> m_Path;	    //Vector of path locations
 	State<Bot>* currentState;		        //the current state

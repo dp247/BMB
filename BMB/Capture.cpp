@@ -31,8 +31,6 @@ void Capture::Enter(Bot* pBot)
 	//Set behaviours
 	pBot->SetBehaviours(true, false, false, false, false, false, true);
 
-	//Generate path to the enemy domination point closest to the bot
-	//pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
 }
 
 void Capture::Execute(Bot* pBot)
@@ -42,10 +40,10 @@ void Capture::Execute(Bot* pBot)
 		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
 
 	//Check the enemy is within part of a radius of the domination point
-	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 10))
 	{
 		//If the enemy bot is alive and within the range, attack them
-		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+    if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
 		{
 			pBot->ChangeState(Attack::GetInstance());
 		}
