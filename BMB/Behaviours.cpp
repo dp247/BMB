@@ -211,7 +211,7 @@ void Behaviours::ClearPath()
 	m_Path.clear();
 }
 
-void Behaviours::UpdateParameters()
+void Behaviours::UpdateParameters(Vector2D botPosition, Vector2D botVelocity, Vector2D targetPosition, Vector2D targetVelocity)
 {
 
 }
