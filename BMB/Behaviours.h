@@ -50,7 +50,7 @@ public:
   void SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, bool Evade, bool Pathfind, bool AvoidWall);
 
   //Sets the bot and target positions and velocities that are used in the behaviours
-  void UpdateParameters(Vector2D botPosition, Vector2D botVelocity, Vector2D targetPosition, Vector2D targetVelocity);
+  void UpdateParameters(Vector2D botPos, Vector2D botVelo, Vector2D targetPos, Vector2D targetVelo);
 
   //Path functions -------------------------------------------------------------------------
   //Clears the path instance
