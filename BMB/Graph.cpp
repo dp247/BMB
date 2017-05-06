@@ -191,6 +191,8 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 	//Add the starting node to the frontier list
 	openSet.push_back(start);
 
+  Node* current = nullptr;
+
 	start->fromNode = nullptr;
 	start->g = 0;
 	start->f = start->g + getHeuristic(start, goal);
@@ -198,7 +200,6 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 	//while the open set is not empty
 	while (!openSet.size() == 0)
 	{
-		Node* current = nullptr;
 		current = getLowestFScore();
 
 		if (current == goal)
@@ -238,6 +239,8 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 			}
 		}
 	}
+
+  return getPath(current);
 }
 
 //Function that resets the pathfinding system

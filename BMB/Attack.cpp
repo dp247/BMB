@@ -38,8 +38,11 @@ void Attack::Enter(Bot* pBot)
   //Generate a path to the enemy
   //pBot->GeneratePath(pBot->GetLocation(), pBot->GetEnemyBotLocation());
 
+  //Update parameters
+  pBot->UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity());
+
   //Set behaviours
-  pBot->SetBehaviours(false, false, false, true, false, true, true);
+  pBot->SetBehaviours(false, false, false, true, false, false, true);
 }
 
 void Attack::Execute(Bot* pBot)
@@ -55,14 +58,14 @@ void Attack::Execute(Bot* pBot)
 				{
           pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
           	pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
-
-					//If the bot's accuracy is better than 70%
-					if (pBot->GetAccuracy() >= 0.7)
-					{
-						//Shoot
-						pBot->Shoot();
-					}
 				}
+
+        //If the bot's accuracy is better than 70%
+        else if (pBot->GetAccuracy() >= 0.7)
+        {
+          //Shoot
+          pBot->Shoot();
+        }
 		}
 
 		//If the targetted bot is dead, switch back to roaming
@@ -95,6 +98,8 @@ void Attack::Execute(Bot* pBot)
 
 void Attack::Exit(Bot* pBot)
 {
+  pBot->ClearPath();
+  pBot->StopAiming();
 	pBot->SetBehaviours(false, false, false, false, false, false, false);
 }
 

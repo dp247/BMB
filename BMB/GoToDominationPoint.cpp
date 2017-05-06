@@ -1,6 +1,7 @@
 #include "Attack.h"
 #include "Capture.h"
 #include "GoToDominationPoint.h"
+#include "Roam.h"
 #include "dynamicObjects.h"
 
 //Initialise the instance of the state to null
@@ -47,14 +48,14 @@ void GoToDominationPoint::Execute(Bot* pBot)
 	}
 
 	//Check the enemy is within part of a radius of the domination point
-	else if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
-		{
-			//If the enemy bot is alive and within the range, attack them
-			if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
-			{
-				pBot->ChangeState(Attack::GetInstance());
-			}
-		}
+	//else if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	//	{
+	//		//If the enemy bot is alive and within the range, attack them
+	//		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+	//		{
+	//			pBot->ChangeState(Attack::GetInstance());
+	//		}
+	//	}
 
 	//Update the bot's speed
 	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),

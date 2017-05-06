@@ -351,7 +351,7 @@ void Bot::ProcessAI()
 	}
 
 	if (currentState)
-		Renderer::GetInstance()->DrawTextAt(Vector2D(30.0, (50 + m_iOwnBotNumber * 20)), currentState->GetStateName());
+		Renderer::GetInstance()->DrawTextAt(Vector2D(30.0, (60 + m_iOwnBotNumber * 20)), currentState->GetStateName());
 
 	DrawPath();
 
@@ -655,6 +655,7 @@ int Bot::GetNumberOfCapturedDPs()
 	return capturedDPs;
 }
 
+//Change to domination point as type
 Vector2D Bot::GetClosestUnOwnedDominationPoint(int OwnTeamNumber)
 {
 	double distance = 9999;
@@ -668,6 +669,8 @@ Vector2D Bot::GetClosestUnOwnedDominationPoint(int OwnTeamNumber)
 			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
 		}
 	}
+
+  return Vector2D(0, 0);
 }
 
 Vector2D Bot::GetClosestOwnedDominationPoint(int OwnTeamNumber)
@@ -683,6 +686,8 @@ Vector2D Bot::GetClosestOwnedDominationPoint(int OwnTeamNumber)
 			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
 		}
 	}
+
+  return Vector2D(0, 0);
 }
 
 Vector2D Bot::GetClosestResupplyPoint()
