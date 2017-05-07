@@ -328,11 +328,10 @@ void Bot::TakeDamage(int amount)
 void Bot::StartAI()
 {
 	//Setup the pathfinding instance
-	if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
-	{
-		Graph::instance.AnalyseMap();
-		Graph::instance.FillEdgeList();
-	}
+	//if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
+	//{
+
+	//}
 
 	currentState = nullptr;
 	previousState = nullptr;

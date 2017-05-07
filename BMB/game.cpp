@@ -4,6 +4,7 @@
 #include "errorlogger.h"
 #include "myinputs.h"
 #include "dynamicobjects.h"
+#include "Graph.h"
 
 //States
 #include "State.h"
@@ -246,6 +247,9 @@ ErrorType Game::InitialiseScript()
 	pDynObjects->PlaceDominationPoint(Vector2D( 200,850 ));
 
 	pDynObjects->Initialise();
+
+	Graph::instance.AnalyseMap();
+	Graph::instance.FillEdgeList();
 
 	return SUCCESS;
 }

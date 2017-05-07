@@ -1,6 +1,7 @@
 #pragma once
 #include "errortype.h"
 #include "gametimer.h"
+
 #define NULL 0
 class Game
 {
