@@ -29,15 +29,15 @@ Capture* Capture::GetInstance()
 void Capture::Enter(Bot* pBot)
 {
 	//Set behaviours
-	pBot->SetBehaviours(true, false, false, false, false, false, true);
+	pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, false, true);
 
 }
 
 void Capture::Execute(Bot* pBot)
 {
 	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
 	//Check the enemy is within part of a radius of the domination point
 	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 10))
@@ -59,7 +59,7 @@ void Capture::Execute(Bot* pBot)
 
 void Capture::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void Capture::Release()

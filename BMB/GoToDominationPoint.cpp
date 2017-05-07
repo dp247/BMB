@@ -29,13 +29,13 @@ GoToDominationPoint* GoToDominationPoint::GetInstance()
 void GoToDominationPoint::Enter(Bot* pBot)
 {
 	//Set behaviours
-	pBot->SetBehaviours(false, false, false, false, false, true, true);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
 
 	//Get the closest enemy bot again
 	pBot->GetClosestEnemyBot();
 
 	//Generate path to the enemy domination point closest to the bot
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
+	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM)));
 }
 
 void GoToDominationPoint::Execute(Bot* pBot)
@@ -58,13 +58,13 @@ void GoToDominationPoint::Execute(Bot* pBot)
 	//	}
 
 	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 }
 
 void GoToDominationPoint::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void GoToDominationPoint::Release()

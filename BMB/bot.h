@@ -2,7 +2,7 @@
 #include "shapes.h"
 #include "Behaviours.h"
 
-class Bot : public Behaviours
+class Bot
 {
 protected:
 	//Direction data
@@ -32,6 +32,9 @@ protected:
 	int m_iOwnTeamNumber;			// Bot's team number
 	int m_iOwnBotNumber;			// Bot's own bot number
 	int m_iHealth;					// Bot's health (100 max)
+	State<Bot>* currentState;		// The current state
+	State<Bot>* previousState;		// The previous state
+	std::vector <Vector2D> m_Path;  // Vector of path locations
 
 	Vector2D targetPoint;			//it complained when I took this out
 
@@ -39,6 +42,8 @@ public:
 	Bot();	
 
 	Vector2D m_vClosestDP;			// Location of the closest domination point
+	Behaviours behaviourInstance;	// Bot's behaviour instance
+
 
 	//Flow functions --------------------------------------------------------------------
 	// Runs once each frame. Handles physics, shooting, and calls
@@ -90,7 +95,6 @@ public:
 	void DrawPath();
 
 
-
 	//Getter functions ------------------------------------------------------------------
 	// Returns the current accuracy of the bot.
 	// Accuracy is the probability of hitting the current target.
@@ -100,8 +104,8 @@ public:
 	// Returns the amount of ammo that the bot has
 	int GetAmmo();
 
-  // Returns the bot's own number
-  int GetBotNumber();
+	// Returns the bot's own number
+	int GetBotNumber();
 
 	// Calculates the closest non-owned domination point to the bot
 	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
@@ -143,6 +147,9 @@ public:
 	// Returns the number of captured domination points
 	int GetNumberOfCapturedDPs();
 
+	// Returns the path
+	std::vector<Vector2D> GetPath();
+
 	// Returns the number of the bot being aimed at.
 	// Returns a negative number if no bot is being aimed at.
 	int GetTargetBot();
@@ -162,6 +169,9 @@ public:
 	// Sets the bots own team number and bot number.
 	// No need to call this
 	void SetOwnNumbers(int teamNo, int botNo);
+
+	//Clears and sets the path
+	void SetPath(std::vector<Vector2D> path);
 
 	// Sets the target of the current bot.
 	// This will reset the accuracy to zero if the target bot 

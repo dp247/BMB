@@ -27,10 +27,10 @@ FindResupplyPoint* FindResupplyPoint::GetInstance()
 void FindResupplyPoint::Enter(Bot* pBot)
 {
 	//Set behaviours
-	pBot->SetBehaviours(false, false, false, false, false, true, true);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
 
 	//Set path to closest resupply point
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestResupplyPoint());
+	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestResupplyPoint()));
 }
 
 void FindResupplyPoint::Execute(Bot* pBot)
@@ -39,12 +39,12 @@ void FindResupplyPoint::Execute(Bot* pBot)
 	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()))
 	{
 		//Seek to it and capture
-		pBot->SetBehaviours(true, false, false, false, false, false, true);
+		pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, false, true);
 	}
 
 	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
 	//Get the closest enemy bot again
 	pBot->GetClosestEnemyBot();
@@ -55,7 +55,7 @@ void FindResupplyPoint::Execute(Bot* pBot)
 		//If the enemy bot is alive and within the range, flee from it
 		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
 		{
-			pBot->SetBehaviours(false, false, false, false, true, true, true);
+			pBot->behaviourInstance.SetBehaviours(false, false, false, false, true, true, true);
 		}
 	}
 
@@ -75,7 +75,7 @@ void FindResupplyPoint::Execute(Bot* pBot)
 
 void FindResupplyPoint::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void FindResupplyPoint::Release()

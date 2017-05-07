@@ -35,7 +35,7 @@ Roam* Roam::GetInstance()
 //Called on entry of the state
 void Roam::Enter(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, true);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, true);
 
 	//Get the closest enemy bot (even if not in LOS) and set the appropriate variable
 	pBot->GetClosestEnemyBot();
@@ -44,8 +44,8 @@ void Roam::Enter(Bot* pBot)
 //Called on every frame of the state
 void Roam::Execute(Bot* pBot)
 {
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
 	//If the bot is alive
 	if (pBot->IsAlive())
@@ -81,7 +81,7 @@ void Roam::Execute(Bot* pBot)
 //Called on exit of the state
 void Roam::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void Roam::Release()

@@ -39,10 +39,10 @@ void Attack::Enter(Bot* pBot)
   //pBot->GeneratePath(pBot->GetLocation(), pBot->GetEnemyBotLocation());
 
   //Update parameters
-  pBot->UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity());
+  pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity());
 
   //Set behaviours
-  pBot->SetBehaviours(false, false, false, true, false, false, true);
+  pBot->behaviourInstance.SetBehaviours(false, false, false, true, false, false, true);
 }
 
 void Attack::Execute(Bot* pBot)
@@ -56,8 +56,8 @@ void Attack::Execute(Bot* pBot)
 				//If the distance to the enemy bot is > 450, get closer to it
 				if (pBot->GetDistanceToEnemyBot() > 450)
 				{
-          pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-          	pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+					pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+						pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 				}
 
         //If the bot's accuracy is better than 70%
@@ -98,9 +98,8 @@ void Attack::Execute(Bot* pBot)
 
 void Attack::Exit(Bot* pBot)
 {
-  pBot->ClearPath();
-  pBot->StopAiming();
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->StopAiming();
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void Attack::Release()

@@ -758,3 +758,19 @@ int Bot::GetBotNumber()
 {
   return m_iOwnBotNumber;
 }
+
+std::vector<Vector2D> Bot::GetPath()
+{
+	return m_Path;
+}
+
+void Bot::SetPath(std::vector<Vector2D> path)
+{
+	if (!m_Path.empty())
+	{
+		m_Path.clear();
+	}
+
+	m_Path = path;
+}
+

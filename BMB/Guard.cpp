@@ -30,10 +30,10 @@ Guard* Guard::GetInstance()
 void Guard::Enter(Bot* pBot)
 {
 	//Set behaviours
-	pBot->SetBehaviours(false, false, false, false, false, true, true);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
 
 	//Generate path to the player owned domination point closest to the bot
-	pBot->GeneratePath(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM));
+	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM)));
 }
 
 void Guard::Execute(Bot* pBot)
@@ -42,12 +42,12 @@ void Guard::Execute(Bot* pBot)
 	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM)))
 	{
 		//Seek to it and capture
-		pBot->SetBehaviours(true, false, false, false, false, true, true);
+		pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, true, true);
 	}
 
 	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPathInstance()));
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
 	//Get the closest enemy bot again
 	pBot->GetClosestEnemyBot();
@@ -78,7 +78,7 @@ void Guard::Execute(Bot* pBot)
 
 void Guard::Exit(Bot* pBot)
 {
-	pBot->SetBehaviours(false, false, false, false, false, false, false);
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 void Guard::Release()

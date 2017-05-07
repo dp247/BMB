@@ -33,6 +33,12 @@ private:
 	//double for the cost
 	double cost;
 
+	//calculatePath is called by Pathfind() and is given two nodes
+	std::vector<Vector2D> calculatePath(Node* start, Node* goal);
+	//getPath adds the node in the path to the vector and returns the
+	//path
+	std::vector<Vector2D> getPath(Node* current);
+
 public:
 	//constructor
 	Graph();
@@ -52,11 +58,6 @@ public:
 
 	//Pathfind is called outside of the class and is given two locations
 	std::vector<Vector2D> Pathfind(Vector2D from, Vector2D to);
-	//calculatePath is called by Pathfind() and is given two nodes
-	std::vector<Vector2D> calculatePath(Node* start, Node* goal);
-	//getPath adds the node in the path to the vector and returns the
-	//path
-	std::vector<Vector2D> getPath(Node* current);
 	//findClosestVisibleNode finds the closest node to the location
 	//given in Pathfind()
 	Node* findClosestVisibleNode(Vector2D pos);

@@ -9,9 +9,6 @@ Behaviours::Behaviours()
 	isPursuing = false;
 	isPathfinding = false;
 	isAvoidingWall = false;
-
-	currentState = nullptr;
-	previousState = nullptr;
 }
 
 
@@ -32,17 +29,6 @@ void Behaviours::SetBehaviours(bool Seek, bool Flee, bool Arrive, bool Pursue, b
 	isAvoidingWall = AvoidWall;
 }
 
-//Set the path
-void Behaviours::SetPathInstance(std::vector<Vector2D>* path)
-{
-	m_Path = *path;
-}
-
-//Return the bot's current path
-std::vector<Vector2D>* Behaviours::GetPathInstance()
-{
-	return &m_Path;
-}
 
 //Returns a Vector2D that sets a desired velocity to move to a target
 Vector2D Behaviours::Seek(Vector2D targetPos, Vector2D botPos, Vector2D velocity)
@@ -124,28 +110,29 @@ Vector2D Behaviours::Evade(Vector2D targetPos, Vector2D botPos, Vector2D targetV
 }
 
 
-Vector2D Behaviours::FollowPath(Vector2D& botPos, Vector2D botVelocity)
+Vector2D Behaviours::FollowPath(Vector2D& botPos, std::vector<Vector2D> &path, Vector2D botVelocity)
 {
 	//Initialize a result variable
 	Vector2D result;
 	//Get the path size
-	int pathSize = m_Path.size();
+	int pathSize = path.size();
+
 
 	if (pathSize > 0)
-		result = Seek(m_Path[pathSize - 1], botPos, botVelocity);
+		result = Seek(path[pathSize - 1], botPos, botVelocity);
 
 	//If the path has more than one element
-	if (m_Path.size() > 1)
+	if (pathSize > 1)
 	{
 		//Set the result to seek the last element in path from the current 
 		//bot position and using the current velocity
 
 
 		//Check if the node after the last (i.e. the next node) can be seen
-		if (StaticMap::GetInstance()->IsLineOfSight(botPos, m_Path[pathSize - 2]))
+		if (StaticMap::GetInstance()->IsLineOfSight(botPos, path[pathSize - 2]))
 		{
 			//Remove the node from the path
-			m_Path.pop_back();
+			path.pop_back();
 		}
 	}
 	//Return the result
@@ -169,7 +156,7 @@ Vector2D Behaviours::AvoidWall(Vector2D botPos)
 	return Vector2D(0, 0);
 }
 
-Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity, std::vector<Vector2D>* path)
+Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVelocity, Vector2D botPos, Vector2D botVelocity, std::vector<Vector2D> &path)
 {
 	Vector2D acceleration;
 
@@ -190,7 +177,7 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 		acceleration += Evade(targetPos, botPos, targetVelocity);
 
 	if (isPathfinding)
-		acceleration += FollowPath(botPos, botVelocity);
+		acceleration += FollowPath(botPos, path, botVelocity);
 
 	if (isAvoidingWall)
 		acceleration += AvoidWall(botPos);
@@ -198,18 +185,6 @@ Vector2D Behaviours::AccumulateBehaviours(Vector2D targetPos, Vector2D targetVel
 	return acceleration;
 }
 
-void Behaviours::GeneratePath(Vector2D from, Vector2D to)
-{
-	//Reverse the from and to points to make sense to humans
-	m_Path = Graph::instance.Pathfind(to, from);
-
-	//ErrorLogger::Writeln(L"Generating path");
-}
-
-void Behaviours::ClearPath()
-{
-	m_Path.clear();
-}
 
 void Behaviours::UpdateParameters(Vector2D botPos, Vector2D botVelo, Vector2D targetPos, Vector2D targetVelo)
 {
