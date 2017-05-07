@@ -124,6 +124,7 @@ void Graph::Draw()
 		//Draw a dot for the node
 		Renderer::GetInstance()->DrawDot(it->position, 4);
 
+		
 		//For every node in the edgeList
 		//for (iu = it->edgeList.begin(); iu != it->edgeList.end(); ++iu)
 		//{

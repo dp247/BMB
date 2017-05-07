@@ -7,8 +7,8 @@
 #include "Graph.h"
 
 //States
-#include "State.h"
 #include "Attack.h"
+#include "GoToDominationPoint.h"
 #include "Roam.h"
 #include "Capture.h"
 #include "FindResupplyPoint.h"
@@ -174,11 +174,19 @@ ErrorType Game::Update()
 
 ErrorType Game::End()
 {
+
 	Renderer::Release();
 	StaticMap::Release();
 
 	//Release the states
-	//Attack::Release();
+	Attack::Release();
+	Capture::Release();
+	FindResupplyPoint::Release();
+	GoToDominationPoint::Release();
+	Guard::Release();
+	Roam::Release();
+	Start::Release();
+
 	DynamicObjects::Release();
 	return SUCCESS;
 }

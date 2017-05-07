@@ -18,5 +18,5 @@ public:
 	void Exit(Bot* pBot);
 	wchar_t* GetStateName();
 
-	void Release();
+	static void Release();
 };

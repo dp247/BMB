@@ -23,6 +23,6 @@ public:
 	wchar_t* GetStateName();
 
 
-	void Release();
+	static void Release();
 };
 

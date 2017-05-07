@@ -33,7 +33,9 @@ Roam* Roam::GetInstance()
 //Called on entry of the state
 void Roam::Enter(Bot* pBot)
 {
-	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, true);
+	//pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetBotStartingDominationPoint()));
+
+	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, false, false);
 }
 
 //Called on every frame of the state
@@ -42,7 +44,7 @@ void Roam::Execute(Bot* pBot)
 	//If the bot is alive
 	if (pBot->IsAlive())
 	{
-		if (pBot->GetAmmo <= 0)
+		if (pBot->GetAmmo() == 0)
 		{
 			pBot->ChangeState(FindResupplyPoint::GetInstance());
 		}

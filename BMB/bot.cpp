@@ -350,7 +350,9 @@ void Bot::ProcessAI()
 	}
 
 	if (currentState)
+	{
 		Renderer::GetInstance()->DrawTextAt(Vector2D(30.0, (60 + m_iOwnBotNumber * 20)), currentState->GetStateName());
+	}
 
 	DrawPath();
 
@@ -662,6 +664,7 @@ Vector2D Bot::GetClosestUnOwnedDominationPoint(int OwnTeamNumber)
 			&& DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_OwnerTeamNumber != OwnTeamNumber)
 		{
 			distance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location).magnitude();
+			dominationPointToTarget = dominationPointID;
 			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
 		}
 	}
@@ -679,6 +682,7 @@ Vector2D Bot::GetClosestOwnedDominationPoint(int OwnTeamNumber)
 			&& DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_OwnerTeamNumber == OwnTeamNumber)
 		{
 			distance = (Bot::GetLocation() - DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location).magnitude();
+
 			return m_vClosestDP = DynamicObjects::GetInstance()->GetDominationPoint(dominationPointID).m_Location;
 		}
 	}
@@ -725,13 +729,26 @@ void Bot::SetTargetDP(Vector2D target)
 
 void Bot::DrawPath()
 {
+	float temp;
+		float temp2;
+		float temp3;
+		float temp4;
 	if (m_Path.size() >= 1)
+	{
 		Renderer::GetInstance()->DrawLine(m_Position, m_Path.back(), 3);
-	//for (int i = 0; i < m_Path.size() - 2; ++i)
-	//{
-	//	Renderer::GetInstance()->DrawLine(m_Path[i], m_Path[i+1], 3);
+	}
+	
+	if (m_Path.size() >= 2)
+	{
+		Renderer::GetInstance()->DrawLine(m_Position, m_Path.back(), 3);
+		for (int i = 0; i < m_Path.size() - 2; ++i)
+		{
+			Renderer::GetInstance()->DrawLine(m_Path[i], m_Path[i + 1], 3);
 
-	//}
+		}
+	}
+
+	
 
 	for (int i = 0; i < m_Path.size(); ++i)
 	{
@@ -771,3 +788,31 @@ void Bot::SetPath(std::vector<Vector2D> path)
 	m_Path = path;
 }
 
+Vector2D Bot::GetBotStartingDominationPoints()
+{
+	dominationPointToTarget = ((m_iOwnBotNumber/2)%3);
+
+	m_vClosestDP.set(DynamicObjects::GetInstance()->GetDominationPoint(dominationPointToTarget).m_Location);
+
+	return m_vClosestDP;
+}
+
+int Bot::GetDomNumber()
+{
+	return((m_iOwnBotNumber / 2) % 3);
+}
+
+Vector2D Bot::GetCurrentBotDominationPoint()
+{
+	return m_vClosestDP;
+}
+
+int Bot::GetBotDominationPointNumber()
+{
+	return dominationPointToTarget;
+}
+
+int Bot::GetBotTeam()
+{
+	return m_iOwnTeamNumber;
+}

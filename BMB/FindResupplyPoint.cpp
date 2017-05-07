@@ -35,41 +35,41 @@ void FindResupplyPoint::Enter(Bot* pBot)
 
 void FindResupplyPoint::Execute(Bot* pBot)
 {
-	//If the resupply is in line of sight
-	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()))
-	{
-		//Seek to it and capture
-		pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, false, true);
-	}
+	////If the resupply is in line of sight
+	//if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestResupplyPoint()))
+	//{
+	//	//Seek to it and capture
+	//	pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, false, true);
+	//}
 
-	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
+	////Update the bot's speed
+	//pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+	//	pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
-	//Get the closest enemy bot again
-	pBot->GetClosestEnemyBot();
+	////Get the closest enemy bot again
+	//pBot->GetClosestEnemyBot();
 
-	//Check the enemy is within part of a radius of the resupply point
-	if (pBot->CalculateDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
-	{
-		//If the enemy bot is alive and within the range, flee from it
-		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot()).IsAlive())
-		{
-			pBot->behaviourInstance.SetBehaviours(false, false, false, false, true, true, true);
-		}
-	}
+	////Check the enemy is within part of a radius of the resupply point
+	//if (pBot->CalculateDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	//{
+	//	//If the enemy bot is alive and within the range, flee from it
+	//	if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot()).IsAlive())
+	//	{
+	//		pBot->behaviourInstance.SetBehaviours(false, false, false, false, true, true, true);
+	//	}
+	//}
 
-	//If the bot has full ammo, go back to roaming
-	if (pBot->GetAmmo() == MAXAMMO)
-	{
-		pBot->ChangeState(Roam::GetInstance());
-	}
+	////If the bot has full ammo, go back to roaming
+	//if (pBot->GetAmmo() == MAXAMMO)
+	//{
+	//	pBot->ChangeState(Roam::GetInstance());
+	//}
 
-	//Else, go back to roaming
-	else
-	{
-		pBot->ChangeState(Roam::GetInstance());
-	}
+	////Else, go back to roaming
+	//else
+	//{
+	//	pBot->ChangeState(Roam::GetInstance());
+	//}
 		
 }
 

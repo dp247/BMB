@@ -23,6 +23,8 @@ protected:
 	int m_iClosestBot;				// ID of the closest enemy bot
 	float m_dClosestBotDistance;	// Distance of the closest enemy bot
 	Vector2D m_vClosestRP;			// Location of the closest resupply point
+	int dominationPointToTarget;	// ID of domination point to target
+	Vector2D m_vClosestDP;			// Location of the closest domination point
 
 	//Timers
 	float m_dTimeToCoolDown;		// Countdown until the time the bot can shoot again
@@ -41,7 +43,6 @@ protected:
 public:
 	Bot();	
 
-	Vector2D m_vClosestDP;			// Location of the closest domination point
 	Behaviours behaviourInstance;	// Bot's behaviour instance
 
 
@@ -98,6 +99,14 @@ public:
 	
 	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
 	float CalculateDistanceToEnemyBot(Bot target);
+
+	// Get the domination point that each bot will initially go to
+	Vector2D GetBotStartingDominationPoints();
+
+	// Get the current domination point target
+	Vector2D GetCurrentBotDominationPoint();
+
+	int GetDomNumber();
 	
 	// Calculates the closest enemy to the bot
 	int GetClosestEnemyBot();
@@ -136,11 +145,17 @@ public:
 	// Returns the bot's own number
 	int GetBotNumber();
 
+	// Returns the bot's team number
+	int GetBotTeam();
+
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
 	float GetDirection();
 
 	// Returns the distance to the enemy bot set in the calculation function
 	float GetDistanceToEnemyBot();
+
+	// Return the bot's domination point number that it will defend
+	int GetBotDominationPointNumber();
 
 	// Returns the current health of the bot
 	int GetHealth();
@@ -167,9 +182,6 @@ public:
 
 	// Sets the acceleration of the bot
 	Vector2D SetBotAcceleration(Vector2D newAccelerationValue);
-
-	// Sets where each 
-	int SetupBotDominationPoints();
 	
 	// Sets the bots own team number and bot number.
 	// No need to call this
