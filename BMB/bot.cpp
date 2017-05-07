@@ -344,7 +344,7 @@ void Bot::StartAI()
 void Bot::ProcessAI()
 {
 	//Setup the pathfinding function
-	if (m_iOwnTeamNumber == 0 && m_iOwnBotNumber == 0)
+	if (m_iOwnTeamNumber == 0 /*&& m_iOwnBotNumber == 0*/)
 	{
 		Graph::instance.Draw();
 	}

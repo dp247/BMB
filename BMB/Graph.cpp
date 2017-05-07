@@ -82,7 +82,7 @@ std::vector<Vector2D> Graph::Pathfind(Vector2D from, Vector2D to)
 	p_End = findClosestVisibleNode(to);
 
 	return calculatePath(p_Start, p_End);
-	
+
 }
 
 //Function that finds the closest visible node
@@ -118,19 +118,19 @@ void Graph::Draw()
 	//Set another iterator
 	std::vector <Edge>::iterator iu;
 
-//	//For every node
-//	for (; it != NodeVector.end(); it++)
-//	{
-//		//Draw a dot for the node
-//		Renderer::GetInstance()->DrawDot(it->position, 4);
-//
-//		//For every node in the edgeList
-//		//for (iu = it->edgeList.begin(); iu != it->edgeList.end(); ++iu)
-//		//{
-//		//	//Draw the line
-//		//	Renderer::GetInstance()->DrawLine(iu->fromNode->position, iu->toNode->position, 3);
-//		//}
-//	}
+	//For every node
+	for (; it != NodeVector.end(); it++)
+	{
+		//Draw a dot for the node
+		Renderer::GetInstance()->DrawDot(it->position, 4);
+
+		//For every node in the edgeList
+		//for (iu = it->edgeList.begin(); iu != it->edgeList.end(); ++iu)
+		//{
+		//	//Draw the line
+		//	Renderer::GetInstance()->DrawLine(iu->fromNode->position, iu->toNode->position, 3);
+		//}
+	}
 }
 
 //Function to fill the list of edges between the nodes
@@ -191,7 +191,7 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 	//Add the starting node to the frontier list
 	openSet.push_back(start);
 
-  Node* current = nullptr;
+	Node* current = nullptr;
 
 	start->fromNode = nullptr;
 	start->g = 0;
@@ -221,7 +221,7 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 
 				//if the new G score is less than the neighbouring node's G score or the neighbouring node is
 				//not open
-				if (newGScore < current->edgeList[i].toNode->g || !contains(openSet ,current->edgeList[i].toNode))
+				if (newGScore < current->edgeList[i].toNode->g || !contains(openSet, current->edgeList[i].toNode))
 				{
 					//Set the neigbouring node's from node to be the current node
 					current->edgeList[i].toNode->fromNode = current;
@@ -229,7 +229,7 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 					current->edgeList[i].toNode->g = newGScore;
 					//Set the neighbouring node's F score to be the new heuristic
 					current->edgeList[i].toNode->f = newGScore + getHeuristic(current->edgeList[i].toNode, goal);
-					
+
 					//If the neighbouring node is not in the open set, add it.
 					if (!contains(openSet, current->edgeList[i].toNode))
 					{
@@ -240,7 +240,7 @@ std::vector<Vector2D> Graph::calculatePath(Node* start, Node* goal)
 		}
 	}
 
-  return getPath(current);
+	return getPath(current);
 }
 
 //Function that resets the pathfinding system
