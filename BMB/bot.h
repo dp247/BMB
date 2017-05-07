@@ -95,6 +95,10 @@ public:
 	void DrawPath();
 
 	//Calculation functions -------------------------------------------------------------
+	
+	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
+	float CalculateDistanceToEnemyBot(Bot target);
+	
 	// Calculates the closest enemy to the bot
 	int GetClosestEnemyBot();
 	
@@ -107,22 +111,20 @@ public:
 	// Calculates the closest resupply point to the bot
 	Vector2D GetClosestResupplyPoint();
 
-	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
-	float CalculateDistanceToEnemyBot(Bot target);
-
-	// Gets the line of sight for the enemy bot
-	bool GetLineOfSight(int enemyBot);
-
 	// Returns the position of the enemy bot
 	Vector2D GetEnemyBotLocation();
 
 	// Returns the velocity of the enemy bot
 	Vector2D GetEnemyBotVelocity();
 
+	// Gets the line of sight for the enemy bot
+	bool GetLineOfSight(int enemyBot);
+
 	// Returns the number of captured domination points
 	int GetNumberOfCapturedDPs();
 
 	//Getter functions ------------------------------------------------------------------
+
 	// Returns the current accuracy of the bot.
 	// Accuracy is the probability of hitting the current target.
 	// If the bot is not aiming, this will be zero.
@@ -162,8 +164,12 @@ public:
 
 
 	//Setter functions ------------------------------------------------------------------
+
 	// Sets the acceleration of the bot
 	Vector2D SetBotAcceleration(Vector2D newAccelerationValue);
+
+	// Sets where each 
+	int SetupBotDominationPoints();
 	
 	// Sets the bots own team number and bot number.
 	// No need to call this

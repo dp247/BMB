@@ -40,6 +40,8 @@ void GoToDominationPoint::Enter(Bot* pBot)
 
 void GoToDominationPoint::Execute(Bot* pBot)
 {
+	//Bot enemy = 
+
 	//If domination point is in line of sight
 	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM)))
 	{

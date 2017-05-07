@@ -1,5 +1,6 @@
 #include "Attack.h"
 #include "Capture.h"
+#include "GoToDominationPoint.h"
 #include "Guard.h"
 #include "Roam.h"
 

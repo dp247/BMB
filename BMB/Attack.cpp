@@ -46,7 +46,7 @@ void Attack::Execute(Bot* pBot)
 	//Should check if I'm alive	- if (go back to start if dead)
 	if (pBot->IsAlive())
 	{
-		//Check if the target bot >= 0
+		//If the bot does not have a target, go back to the domination point
 		if (pBot->GetTargetBot() < 0)
 		{
 			pBot->ChangeState(GoToDominationPoint::GetInstance());
@@ -70,7 +70,6 @@ void Attack::Execute(Bot* pBot)
 				pBot->Shoot();
 			}
 		}
-
 
 		else
 		{
