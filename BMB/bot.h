@@ -94,6 +94,33 @@ public:
 
 	void DrawPath();
 
+	//Calculation functions -------------------------------------------------------------
+	// Calculates the closest enemy to the bot
+	int GetClosestEnemyBot();
+	
+	// Calculates the closest non-owned domination point to the bot
+	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
+
+	// Calculates the closest owned domination point to the bot
+	Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
+
+	// Calculates the closest resupply point to the bot
+	Vector2D GetClosestResupplyPoint();
+
+	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
+	float CalculateDistanceToEnemyBot(Bot target);
+
+	// Gets the line of sight for the enemy bot
+	bool GetLineOfSight(int enemyBot);
+
+	// Returns the position of the enemy bot
+	Vector2D GetEnemyBotLocation();
+
+	// Returns the velocity of the enemy bot
+	Vector2D GetEnemyBotVelocity();
+
+	// Returns the number of captured domination points
+	int GetNumberOfCapturedDPs();
 
 	//Getter functions ------------------------------------------------------------------
 	// Returns the current accuracy of the bot.
@@ -107,45 +134,17 @@ public:
 	// Returns the bot's own number
 	int GetBotNumber();
 
-	// Calculates the closest non-owned domination point to the bot
-	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
-
-	// Calculates the closest owned domination point to the bot
-	Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
-
-	// Calculates the closest enemy to the bot
-	void GetClosestEnemyBot();
-
-	// Calculates the closest resupply point to the bot
-	Vector2D GetClosestResupplyPoint();
-
 	// Returns the direction the bot is pointing. In radians anticlockwise from south
 	float GetDirection();
 
-	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
+	// Returns the distance to the enemy bot set in the calculation function
 	float GetDistanceToEnemyBot();
-
-	// Returns the enemy bot ID - different from GetTargetBot(). This function is used to
-  // return the closest enemy bot.
-	int GetEnemyBotID();
-
-	// Returns the position of the enemy bot
-	Vector2D GetEnemyBotLocation();
-
-	// Returns the velocity of the enemy bot
-	Vector2D GetEnemyBotVelocity();
 
 	// Returns the current health of the bot
 	int GetHealth();
 
-	// Gets the line of sight for the enemy bot
-	bool GetLineOfSight(int enemyBot);
-
 	// Returns the location of the bot
 	Vector2D GetLocation();
-
-	// Returns the number of captured domination points
-	int GetNumberOfCapturedDPs();
 
 	// Returns the path
 	std::vector<Vector2D> GetPath();

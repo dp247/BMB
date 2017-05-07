@@ -15,3 +15,4 @@ const int MAXAMMO = 8;
 const int MAXEDGES = 500;
 const int PLAYERTEAM = 0;					// For demo purposes - the team of my AI
 const int ENEMYTEAM = 1;					// For demo purposes - the team of Chris' AI
+const int DISTANCETOENEMY = 450;

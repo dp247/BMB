@@ -53,10 +53,10 @@ void Guard::Execute(Bot* pBot)
 	pBot->GetClosestEnemyBot();
 
 	//Check the enemy is within part of a radius of the domination point
-	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	if (pBot->CalculateDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
 	{
 		//If the enemy bot is alive and within the range, attack them
-		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot()).IsAlive())
 		{
 			pBot->ChangeState(Attack::GetInstance());
 		}

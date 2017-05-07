@@ -1,3 +1,5 @@
+#include "rules.h"
+
 #pragma once
 
 template <class EntityType>

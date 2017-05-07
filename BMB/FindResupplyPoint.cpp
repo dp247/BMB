@@ -50,10 +50,10 @@ void FindResupplyPoint::Execute(Bot* pBot)
 	pBot->GetClosestEnemyBot();
 
 	//Check the enemy is within part of a radius of the resupply point
-	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
+	if (pBot->CalculateDistanceToEnemyBot() < (DOMINATIONRANGE * 6))
 	{
 		//If the enemy bot is alive and within the range, flee from it
-		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot()).IsAlive())
 		{
 			pBot->behaviourInstance.SetBehaviours(false, false, false, false, true, true, true);
 		}

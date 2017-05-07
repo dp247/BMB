@@ -595,7 +595,7 @@ int Bot::GetAmmo()
 	return m_iAmmo;
 }
 
-void Bot::GetClosestEnemyBot()
+int Bot::GetClosestEnemyBot()
 {
 	double enemyBotDistance = 0.0;
 	m_dClosestBotDistance = 9999999.9;
@@ -618,6 +618,8 @@ void Bot::GetClosestEnemyBot()
 			}
 		}
 	}
+
+	return m_iClosestBot;
 }
 
 bool Bot::GetLineOfSight(int enemyBot)
@@ -632,11 +634,6 @@ bool Bot::GetLineOfSight(int enemyBot)
 	}
 
 	return targetCanBeSeen;
-}
-
-int Bot::GetEnemyBotID()
-{
-	return m_iClosestBot;
 }
 
 int Bot::GetNumberOfCapturedDPs()
@@ -701,19 +698,19 @@ Vector2D Bot::GetClosestResupplyPoint()
 	}
 }
 
-float Bot::GetDistanceToEnemyBot()
+float Bot::CalculateDistanceToEnemyBot(Bot target)
 {
-	return (Bot::GetLocation() - DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetLocation()).magnitude();
+	return m_dClosestBotDistance = (m_Position - target.GetLocation()).magnitude();
 }
 
 Vector2D Bot::GetEnemyBotLocation()
 {
-	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetLocation());
+	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetClosestEnemyBot()).GetLocation());
 }
 
 Vector2D Bot::GetEnemyBotVelocity()
 {
-	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetEnemyBotID()).GetVelocity());
+	return (DynamicObjects::GetInstance()->GetBot(1, Bot::GetClosestEnemyBot()).GetVelocity());
 }
 
 Vector2D Bot::SetBotAcceleration(Vector2D newAccelerationValue)

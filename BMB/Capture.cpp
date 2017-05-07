@@ -1,5 +1,6 @@
 #include "Attack.h"
 #include "Capture.h"
+#include "FindResupplyPoint.h"
 #include "Guard.h"
 #include "Roam.h"
 #include "dynamicObjects.h"
@@ -40,10 +41,10 @@ void Capture::Execute(Bot* pBot)
 		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
 
 	//Check the enemy is within part of a radius of the domination point
-	if (pBot->GetDistanceToEnemyBot() < (DOMINATIONRANGE * 10))
+	if (pBot->CalculateDistanceToEnemyBot() < (DOMINATIONRANGE * 10))
 	{
 		//If the enemy bot is alive and within the range, attack them
-    if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot()).IsAlive() && pBot->GetLineOfSight(pBot->GetClosestEnemyBot()))
 		{
 			pBot->ChangeState(Attack::GetInstance());
 		}
@@ -55,6 +56,9 @@ void Capture::Execute(Bot* pBot)
 	{
 		pBot->ChangeState(Guard::GetInstance());
 	}
+
+
+
 }
 
 void Capture::Exit(Bot* pBot)

@@ -1,5 +1,7 @@
 #include "Attack.h"
+#include "GoToDominationPoint.h"
 #include "Roam.h"
+#include "Start.h"
 #include "FindResupplyPoint.h"
 
 //Initialise the instance of the state to null
@@ -29,14 +31,8 @@ void Attack::Enter(Bot* pBot)
   //If aiming, stop it
   pBot->StopAiming();
 
-  //Get the closest enemy bot again
-  pBot->GetClosestEnemyBot();
-
   //Aim at the closest enemy
-  pBot->SetTarget(1, pBot->GetEnemyBotID());
-
-  //Generate a path to the enemy
-  //pBot->GeneratePath(pBot->GetLocation(), pBot->GetEnemyBotLocation());
+  pBot->SetTarget(1, pBot->GetClosestEnemyBot());
 
   //Update parameters
   pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity());
@@ -47,52 +43,57 @@ void Attack::Enter(Bot* pBot)
 
 void Attack::Execute(Bot* pBot)
 {
-	//If the closest enemy bot is in line of sight
-	if (pBot->GetLineOfSight(pBot->GetEnemyBotID()))
+	//Should check if I'm alive	- if (go back to start if dead)
+	if (pBot->IsAlive())
 	{
-		//If the targetted bot is alive
-		if (DynamicObjects::GetInstance()->GetBot(1, pBot->GetEnemyBotID()).IsAlive())
+		//Check if the target bot >= 0
+		if (pBot->GetTargetBot() < 0)
 		{
-				//If the distance to the enemy bot is > 450, get closer to it
-				if (pBot->GetDistanceToEnemyBot() > 450)
-				{
-					pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-						pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
-				}
-
-        //If the bot's accuracy is better than 70%
-        else if (pBot->GetAccuracy() >= 0.7)
-        {
-          //Shoot
-          pBot->Shoot();
-        }
+			pBot->ChangeState(GoToDominationPoint::GetInstance());
 		}
 
-		//If the targetted bot is dead, switch back to roaming
+		//If there is no ammo, go find some
+		if (pBot->GetAmmo() < 1)
+		{
+			pBot->ChangeState(FindResupplyPoint::GetInstance());
+		}
+
+		//Set the target bot
+		Bot enemy = DynamicObjects::GetInstance()->GetBot(1, pBot->GetTargetBot());
+
+		//If the target is alive and in range
+		if ((enemy.IsAlive()) && (pBot->CalculateDistanceToEnemyBot(enemy) < DISTANCETOENEMY))
+		{
+			//If accuracy is over 50%
+			if (pBot->GetAccuracy() > 0.5)
+			{
+				pBot->Shoot();
+			}
+		}
+
+
 		else
 		{
-			pBot->ChangeState(Roam::GetInstance());
+			//Get a new enemy bot
+			enemy = DynamicObjects::GetInstance()->GetBot(1, pBot->GetClosestEnemyBot());
+
+			if (pBot->GetLineOfSight(enemy.GetBotNumber()) && (pBot->CalculateDistanceToEnemyBot(enemy) < DISTANCETOENEMY))
+			{
+				pBot->ChangeState(Attack::GetInstance());
+			}
+
+			else
+			{
+				pBot->ChangeState(GoToDominationPoint::GetInstance());
+			}
+
 		}
 	}
 
-	//If the bot has no ammo, switch to find a resupply point
-	else if (pBot->GetAmmo() < 1)
-	{
-		pBot->ChangeState(FindResupplyPoint::GetInstance());
-	}
-
-	//If the bot does not have a target/is not aiming, set the target and aim at it
-	else if (pBot->GetTargetTeam() != 1)
-	{
-		pBot->SetTarget(1, pBot->GetEnemyBotID());
-	}
-
-	//If the bot has no line of sight, go back to roaming
 	else
 	{
-		pBot->ChangeState(Roam::GetInstance());
+		pBot->ChangeState(Start::GetInstance());
 	}
-
 
 }
 
