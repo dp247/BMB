@@ -39,7 +39,8 @@ Vector2D Behaviours::Seek(Vector2D targetPos, Vector2D botPos, Vector2D velocity
 
   Vector2D desiredVelocity = (targetPosition - botPosition).unitVector() * MAXIMUMSPEED;
 
-  return (desiredVelocity - botVelocity).unitVector() * MAXIMUMACCELERATION;
+  //return (desiredVelocity - botVelocity).unitVector() * MAXIMUMACCELERATION;
+  return (desiredVelocity - botVelocity);
 }
 
 //Returns a Vector2D that sets a desired velocity to move away from a target

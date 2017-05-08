@@ -187,6 +187,8 @@ ErrorType Game::End()
 	Roam::Release();
 	Start::Release();
 
+	Pathfind::Release();
+
 	DynamicObjects::Release();
 	return SUCCESS;
 }

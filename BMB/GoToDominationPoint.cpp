@@ -29,8 +29,8 @@ GoToDominationPoint* GoToDominationPoint::GetInstance()
 
 void GoToDominationPoint::Enter(Bot* pBot)
 {
+	//Set the bot's domination point to guard and set a path to it
 	pBot->SetDominationPoint();
-
 	pBot->SetPath(&Pathfind::GetInstance()->GeneratePath(pBot->GetLocation(), DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location));
 
 	//Set behaviours
@@ -39,28 +39,16 @@ void GoToDominationPoint::Enter(Bot* pBot)
 
 void GoToDominationPoint::Execute(Bot* pBot)
 {
-	//Update the bot's speed
-	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), *pBot->GetPath()));
-
-	//Declare an enemy bot
-	Bot enemy;
-
-	//Loop through the enemies
-	for (int i = 0; i < NUMBOTSPERTEAM; ++i)
+	//Check if there is an enemy nearby
+	if (pBot->CheckForEnemyBot())
 	{
-		enemy = DynamicObjects::GetInstance()->GetBot(ENEMYTEAM, i);
-
-		//If an enemy is alive, in line of sight of the bot and within range of the enemy, change to attack
-		if ((enemy.IsAlive()) && (pBot->GetLineOfSight(enemy.GetBotNumber()) && (pBot->CalculateDistanceToEnemyBot(enemy) < DISTANCETOENEMY)))
-		{
-			pBot->ChangeState(Attack::GetInstance());
-		}
+		pBot->ChangeState(Attack::GetInstance());
 	}
 
-	if (DynamicObjects::GetInstance()->GetDominationPoint(pBot->GetBotDominationPointNumber()).m_OwnerTeamNumber != pBot->GetBotTeam())
+	//If the domination point in the line of sight is not owned 
+	if (DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_OwnerTeamNumber != pBot->GetBotTeam())
 	{
-		if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), (DynamicObjects::GetInstance()->GetDominationPoint(0).m_Location)))
+		if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), (DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location)))
 		{
 			pBot->ChangeState(Capture::GetInstance());
 		}
@@ -68,11 +56,15 @@ void GoToDominationPoint::Execute(Bot* pBot)
 
 	else
 	{
-		if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), (DynamicObjects::GetInstance()->GetDominationPoint(0).m_Location)))
+		if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(), (DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location)))
 		{
 			pBot->ChangeState(Guard::GetInstance());
 		}
 	}
+
+	//Update the bot's speed
+	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
+		pBot->GetLocation(), pBot->GetVelocity(), *pBot->GetPath()));
 }
 
 void GoToDominationPoint::Exit(Bot* pBot)

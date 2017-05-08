@@ -1,6 +1,6 @@
 #include "Pathfind.h"
-#include "staticmap.h"              // For IsInsideBlock()
-#include "Renderer.h"               // DEBUG DRAWING
+#include "staticmap.h"
+#include "Renderer.h"
 
 
 // Initialise to nullptr
@@ -10,7 +10,7 @@ Pathfind* Pathfind::pInstance = nullptr;
 Pathfind::Pathfind()
 {
 
-} // Pathfind()
+}
 
 
 Pathfind* Pathfind::GetInstance()
@@ -21,7 +21,7 @@ Pathfind* Pathfind::GetInstance()
 
 	return pInstance;
 
-} // GetInstance()
+}
 
 
 void Pathfind::GenerateNodes()
@@ -34,7 +34,7 @@ void Pathfind::GenerateNodes()
 
 	GenerateEdges();
 
-} // GenerateNodes()
+}
 
 
 void Pathfind::PlaceNode(Vector2D nodePos)
@@ -47,7 +47,7 @@ void Pathfind::PlaceNode(Vector2D nodePos)
 
 	nodeList.push_back(aNode);
 
-} // PlaceNode()
+}
 
 
 void Pathfind::GetRect(Rectangle2D rect)

@@ -100,22 +100,10 @@ public:
 	// Returns the distance to the closest enemy (set in GetClosestEnemyBot())
 	float CalculateDistanceToEnemyBot(Bot target);
 
-	// Get the domination point that each bot will initially go to
-	//Vector2D GetBotStartingDominationPoints();
-
-	// Get the current domination point target
-	//Vector2D GetCurrentBotDominationPoint();
-
-	int GetDomNumber();
+	bool CheckForEnemyBot();
 	
 	// Calculates the closest enemy to the bot
 	int GetClosestEnemyBot();
-	
-	// Calculates the closest non-owned domination point to the bot
-	//Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
-
-	// Calculates the closest owned domination point to the bot
-	//Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
 
 	// Calculates the closest resupply point to the bot
 	Vector2D GetClosestResupplyPoint();
@@ -153,9 +141,6 @@ public:
 
 	// Returns the distance to the enemy bot set in the calculation function
 	float GetDistanceToEnemyBot();
-
-	// Return the bot's domination point number that it will defend
-	int GetBotDominationPointNumber();
 
 	// Returns the current health of the bot
 	int GetHealth();

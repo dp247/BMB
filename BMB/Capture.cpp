@@ -5,6 +5,7 @@
 #include "Guard.h"
 #include "Roam.h"
 #include "dynamicObjects.h"
+#include "Pathfind.h"
 
 //Initialise the instance of the state to null
 Capture* Capture::instance = nullptr;
@@ -30,32 +31,25 @@ Capture* Capture::GetInstance()
 
 void Capture::Enter(Bot* pBot)
 {
-	pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), DynamicObjects::GetInstance()->GetDominationPoint(2).m_Location, Vector2D(0, 0));
-
-	//Set behaviours
-	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
-
+	pBot->behaviourInstance.SetBehaviours(true, false, false, false, false, false, true);
 }
 
 void Capture::Execute(Bot* pBot)
 {
-	////Update the bot's speed
 	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
 		pBot->GetLocation(), pBot->GetVelocity(), *pBot->GetPath()));
 
-	//Declare an enemy bot
-	Bot enemy;
-
-	//Loop through the enemies
-	for (int i = 0; i < NUMBOTSPERTEAM; ++i)
+	//Check if there is an enemy nearby
+	if (pBot->CheckForEnemyBot())
 	{
-		enemy = DynamicObjects::GetInstance()->GetBot(ENEMYTEAM, i);
+		pBot->ChangeState(Attack::GetInstance());
+	}
 
-		//If an enemy is alive, in line of sight of the bot and within range of the enemy, change to attack
-		if ((enemy.IsAlive()) && (pBot->GetLineOfSight(enemy.GetBotNumber()) && (pBot->CalculateDistanceToEnemyBot(enemy) < DISTANCETOENEMY)))
-		{
-			pBot->ChangeState(Attack::GetInstance());
-		}
+	//If the domination point is in line of sight, seek to it
+	if (StaticMap::GetInstance()->IsLineOfSight(pBot->GetLocation(),
+		DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location))
+	{
+		pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location, Vector2D (0,0));
 	}
 
 	//If the bot's target domination point is captured and the team owns 2 or more points, then switch to guard them
@@ -63,16 +57,6 @@ void Capture::Execute(Bot* pBot)
 	{
 		pBot->ChangeState(Guard::GetInstance());
 	}
-
-	//If the team has less than 2 (0 or 1) captured points, get the closest unowned point to the bot and go to it
-	else
-	{
-		//pBot->SetTargetDP(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
-		//pBot->ChangeState(GoToDominationPoint::GetInstance());
-	}
-
-
-
 
 }
 

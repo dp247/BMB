@@ -32,7 +32,7 @@ void Attack::Enter(Bot* pBot)
   pBot->StopAiming();
 
   //Aim at the closest enemy
-  pBot->SetTarget(1, pBot->GetClosestEnemyBot());
+  //pBot->SetTarget(1, pBot->GetClosestEnemyBot());
 
   //Update parameters
   pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity());
