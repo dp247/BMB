@@ -30,7 +30,7 @@ void FindResupplyPoint::Enter(Bot* pBot)
 	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
 
 	//Set path to closest resupply point
-	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestResupplyPoint()));
+	//pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestResupplyPoint()));
 }
 
 void FindResupplyPoint::Execute(Bot* pBot)

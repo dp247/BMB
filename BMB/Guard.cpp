@@ -34,7 +34,7 @@ void Guard::Enter(Bot* pBot)
 	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
 
 	//Generate path to the player owned domination point closest to the bot
-	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM)));
+	//pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), pBot->GetClosestOwnedDominationPoint(PLAYERTEAM)));
 }
 
 void Guard::Execute(Bot* pBot)

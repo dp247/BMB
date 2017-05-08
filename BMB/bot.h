@@ -23,7 +23,6 @@ protected:
 	int m_iClosestBot;				// ID of the closest enemy bot
 	float m_dClosestBotDistance;	// Distance of the closest enemy bot
 	Vector2D m_vClosestRP;			// Location of the closest resupply point
-	int dominationPointToTarget;	// ID of domination point to target
 	Vector2D m_vClosestDP;			// Location of the closest domination point
 
 	//Timers
@@ -44,6 +43,7 @@ public:
 	Bot();	
 
 	Behaviours behaviourInstance;	// Bot's behaviour instance
+	int dominationPointToTarget;	// ID of domination point to target
 
 
 	//Flow functions --------------------------------------------------------------------
@@ -101,10 +101,10 @@ public:
 	float CalculateDistanceToEnemyBot(Bot target);
 
 	// Get the domination point that each bot will initially go to
-	Vector2D GetBotStartingDominationPoints();
+	//Vector2D GetBotStartingDominationPoints();
 
 	// Get the current domination point target
-	Vector2D GetCurrentBotDominationPoint();
+	//Vector2D GetCurrentBotDominationPoint();
 
 	int GetDomNumber();
 	
@@ -112,10 +112,10 @@ public:
 	int GetClosestEnemyBot();
 	
 	// Calculates the closest non-owned domination point to the bot
-	Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
+	//Vector2D GetClosestUnOwnedDominationPoint(int OwnTeamNumber);
 
 	// Calculates the closest owned domination point to the bot
-	Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
+	//Vector2D GetClosestOwnedDominationPoint(int OwnTeamNumber);
 
 	// Calculates the closest resupply point to the bot
 	Vector2D GetClosestResupplyPoint();
@@ -164,7 +164,7 @@ public:
 	Vector2D GetLocation();
 
 	// Returns the path
-	std::vector<Vector2D> GetPath();
+	std::vector<Vector2D>* GetPath();
 
 	// Returns the number of the bot being aimed at.
 	// Returns a negative number if no bot is being aimed at.
@@ -188,7 +188,7 @@ public:
 	void SetOwnNumbers(int teamNo, int botNo);
 
 	//Clears and sets the path
-	void SetPath(std::vector<Vector2D> path);
+	void SetPath(std::vector<Vector2D>* path);
 
 	// Sets the target of the current bot.
 	// This will reset the accuracy to zero if the target bot 
@@ -199,7 +199,8 @@ public:
 	// or use the StopAiming method
 	void SetTarget(int targetTeamNo, int targetBotNo);
 
-	void SetTargetDP(Vector2D target);
+
+	void SetDominationPoint();
 
 	//Set the velocity of the bot
 	void SetVelocity(Vector2D newVelocity);

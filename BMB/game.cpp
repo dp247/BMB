@@ -4,7 +4,7 @@
 #include "errorlogger.h"
 #include "myinputs.h"
 #include "dynamicobjects.h"
-#include "Graph.h"
+#include "Pathfind.h"
 
 //States
 #include "Attack.h"
@@ -256,8 +256,7 @@ ErrorType Game::InitialiseScript()
 
 	pDynObjects->Initialise();
 
-	Graph::instance.AnalyseMap();
-	Graph::instance.FillEdgeList();
+	Pathfind::GetInstance()->GenerateNodes();
 
 	return SUCCESS;
 }

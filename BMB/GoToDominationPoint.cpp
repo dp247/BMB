@@ -3,6 +3,7 @@
 #include "GoToDominationPoint.h"
 #include "Guard.h"
 #include "dynamicObjects.h"
+#include "Pathfind.h"
 
 //Initialise the instance of the state to null
 GoToDominationPoint* GoToDominationPoint::instance = nullptr;
@@ -28,17 +29,9 @@ GoToDominationPoint* GoToDominationPoint::GetInstance()
 
 void GoToDominationPoint::Enter(Bot* pBot)
 {
-	//pBot->behaviourInstance.UpdateParameters(pBot->GetLocation(), pBot->GetVelocity(), DynamicObjects::GetInstance()->GetDominationPoint(pBot->GetBotDominationPointNumber()).m_Location, Vector2D(0, 0));
+	pBot->SetDominationPoint();
 
-	//Call function to setup the domination points each bot will defend initially abd
-
-	//generate path to it
-	DominationPoint DomPoint = DynamicObjects::GetInstance()->GetDominationPoint(pBot->GetDomNumber());
-	float fltdbg = DomPoint.m_Location.XValue;
-
-	pBot->SetPath(Graph::instance.Pathfind(pBot->GetLocation(), DomPoint.m_Location));
-	pBot->GetBotStartingDominationPoints();
-	int debug = pBot->GetDomNumber();
+	pBot->SetPath(&Pathfind::GetInstance()->GeneratePath(pBot->GetLocation(), DynamicObjects::GetInstance()->GetDominationPoint(pBot->dominationPointToTarget).m_Location));
 
 	//Set behaviours
 	pBot->behaviourInstance.SetBehaviours(false, false, false, false, false, true, true);
@@ -48,7 +41,7 @@ void GoToDominationPoint::Execute(Bot* pBot)
 {
 	//Update the bot's speed
 	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
+		pBot->GetLocation(), pBot->GetVelocity(), *pBot->GetPath()));
 
 	//Declare an enemy bot
 	Bot enemy;

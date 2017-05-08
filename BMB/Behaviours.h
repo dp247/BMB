@@ -49,18 +49,5 @@ public:
   //Sets the bot/target positions and velocities that are used in the behaviours
   void UpdateParameters(Vector2D botPos, Vector2D botVelo, Vector2D targetPos, Vector2D targetVelo);
 
-  //Path functions -------------------------------------------------------------------------
-  //Clears the path instance
-	void ClearPath();
-
-  //Generates a path between two points
-  void GeneratePath(Vector2D from, Vector2D to);
-
-	//Gets the current path
-	std::vector<Vector2D>* GetPathInstance();
-
-  //Sets the bots path
-  void SetPathInstance(std::vector<Vector2D>* path);
-
 };
 

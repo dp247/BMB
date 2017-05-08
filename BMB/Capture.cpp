@@ -41,7 +41,7 @@ void Capture::Execute(Bot* pBot)
 {
 	////Update the bot's speed
 	pBot->SetBotAcceleration(pBot->behaviourInstance.AccumulateBehaviours(pBot->GetEnemyBotLocation(), pBot->GetEnemyBotVelocity(),
-		pBot->GetLocation(), pBot->GetVelocity(), pBot->GetPath()));
+		pBot->GetLocation(), pBot->GetVelocity(), *pBot->GetPath()));
 
 	//Declare an enemy bot
 	Bot enemy;
@@ -67,8 +67,8 @@ void Capture::Execute(Bot* pBot)
 	//If the team has less than 2 (0 or 1) captured points, get the closest unowned point to the bot and go to it
 	else
 	{
-		pBot->SetTargetDP(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
-		pBot->ChangeState(GoToDominationPoint::GetInstance());
+		//pBot->SetTargetDP(pBot->GetClosestUnOwnedDominationPoint(PLAYERTEAM));
+		//pBot->ChangeState(GoToDominationPoint::GetInstance());
 	}
 
 

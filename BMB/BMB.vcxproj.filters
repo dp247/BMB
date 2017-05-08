@@ -114,6 +114,9 @@
     <ClInclude Include="State.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
+    <ClInclude Include="Pathfind.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="bot.cpp">
@@ -198,6 +201,9 @@
       <Filter>Source Files\States</Filter>
     </ClCompile>
     <ClCompile Include="Network.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Pathfind.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

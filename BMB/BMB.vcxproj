@@ -100,6 +100,7 @@
     <ClInclude Include="mysoundengine.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="Pathfind.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Roam.h" />
     <ClInclude Include="rules.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="mysoundengine.cpp" />
     <ClCompile Include="Network.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="Pathfind.cpp" />
     <ClCompile Include="renderer.cpp" />
     <ClCompile Include="Roam.cpp" />
     <ClCompile Include="Shapes.cpp" />
